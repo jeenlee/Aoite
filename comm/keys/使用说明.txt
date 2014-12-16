@@ -1,0 +1,16 @@
+1.创建一个新的随机密钥对并将其存储在 keyPair.snk 中
+sn -k keyPair.snk
+2.从 keyPair.snk 中提取公钥并将其存储在 publicKey.snk 中
+sn -p keyPair.snk publicKey.snk
+
+显示公钥文件的标记
+sn -t publicKey.snk
+
+显示公钥文件的公钥和标记
+sn -tp publicKey.snk
+
+显示程序集的公钥标记
+sn -T my.dll
+
+显示程序集的公钥和标记
+sn -Tp my.dll
