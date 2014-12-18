@@ -151,3 +151,5 @@ $RECYCLE.BIN/
 .DS_Store
 /comm/keys/aoite.snk
 /comm/keys/aoite.pk.snk
+/comm/keys/aoite.private.ppk
+/comm/keys/aoite.ppk
