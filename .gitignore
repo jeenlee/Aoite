@@ -149,3 +149,5 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+/comm/keys/aoite.snk
+/comm/keys/aoite.pk.snk
