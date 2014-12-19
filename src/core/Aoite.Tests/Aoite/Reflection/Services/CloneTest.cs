@@ -220,5 +220,18 @@ namespace Aoite.ReflectionTest.Services
             Verify((Person)dynamic.expando.person, (Person)clone.expando.person);
         }
         #endregion
+        class CloneReadonlyModel
+        {
+            private readonly int _X = 5;
+            public int X { get { return this._X; } }
+        }
+
+        [Fact()]
+        public void CloneReadonly()
+        {
+            CloneReadonlyModel m1 = new CloneReadonlyModel();
+            var m2 = m1.DeepClone();
+            Assert.Equal(m1.X, m2.X);
+        }
     }
 }

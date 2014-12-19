@@ -115,11 +115,11 @@
     <Compile Include="Aoite\Reflection\Services\EventHandlerTest.cs" />
     <Compile Include="Aoite\Reflection\Services\MapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="System\IgnoreAttributeTests.cs" />
-    <Compile Include="System\Result1Tests.cs" />
-    <Compile Include="System\ResultExceptionTests.cs" />
-    <Compile Include="System\ResultExtensionsTests.cs" />
-    <Compile Include="System\ResultTests.cs" />
+    <Compile Include="System\Result\IgnoreAttributeTests.cs" />
+    <Compile Include="System\Result\Result1Tests.cs" />
+    <Compile Include="System\Result\ResultExceptionTests.cs" />
+    <Compile Include="System\Result\ResultExtensionsTests.cs" />
+    <Compile Include="System\Result\ResultTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Aoite\Aoite.csproj">

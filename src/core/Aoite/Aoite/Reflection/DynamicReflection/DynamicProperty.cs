@@ -13,9 +13,9 @@ namespace Aoite.Reflection
     {
         private PropertyInfo _Property;
         /// <summary>
-        /// 获取或设置成员的属性元数据。
+        /// 获取成员的属性元数据。
         /// </summary>
-        public virtual PropertyInfo Property { get { return this._Property; } set { this._Property = value; } }
+        public virtual PropertyInfo Property { get { return this._Property; } }
 
         private Lazy<MemberSetter> lazy_setValue;
         /// <summary>

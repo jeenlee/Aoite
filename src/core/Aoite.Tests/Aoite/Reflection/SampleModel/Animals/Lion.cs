@@ -32,6 +32,7 @@ namespace Aoite.ReflectionTest.SampleModel.Animals
             ConstructorInstanceUsed = 1;
         }
 
+        [Code("A")]
         public Lion(string name)
             : base(Climate.Hot, MovementCapabilities.Land)
         {

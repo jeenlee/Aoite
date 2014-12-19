@@ -101,15 +101,19 @@
     <Compile Include="Aoite\Reflection\Extensions\Services\TryInvokeWithValuesExtensions.cs" />
     <Compile Include="Aoite\Reflection\DynamicReflection\DynamicProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="System\IgnoreAttribute.cs" />
-    <Compile Include="System\IResult.cs" />
-    <Compile Include="System\IResult`1.cs" />
-    <Compile Include="System\Result.cs" />
-    <Compile Include="System\ResultException.cs" />
-    <Compile Include="System\ResultExtensions.cs" />
-    <Compile Include="System\ResultStatus.cs" />
-    <Compile Include="System\Result`1.cs" />
-    <Compile Include="System\SuccessfullyResult.cs" />
+    <Compile Include="System\Ajob.cs" />
+    <Compile Include="System\Ajob\IAsyncJob.cs" />
+    <Compile Include="System\Attribute\IgnoreAttribute.cs" />
+    <Compile Include="System\Disposable\IObjectDisposable.cs" />
+    <Compile Include="System\Disposable\ObjectDisposableBase.cs" />
+    <Compile Include="System\Result\IResult.cs" />
+    <Compile Include="System\Result\IResult`1.cs" />
+    <Compile Include="System\Result\Result.cs" />
+    <Compile Include="System\Result\ResultException.cs" />
+    <Compile Include="System\Result\ResultExtensions.cs" />
+    <Compile Include="System\Result\ResultStatus.cs" />
+    <Compile Include="System\Result\Result`1.cs" />
+    <Compile Include="System\Result\SuccessfullyResult.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

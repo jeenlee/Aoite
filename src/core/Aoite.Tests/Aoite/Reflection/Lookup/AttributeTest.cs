@@ -463,6 +463,34 @@ namespace Aoite.ReflectionTest.Lookup
         }
         #endregion
         #endregion
+
+        [Fact()]
+        public void MethodsWith()
+        {
+            Type type = typeof(Lion);
+            Assert.Equal(0, type.MethodsWith(Flags.InstancePublic, typeof(CodeAttribute)).Count);
+        }
+
+        [Fact()]
+        public void ConstructorsWith()
+        {
+            Type type = typeof(Lion);
+            Assert.Equal(1, type.ConstructorsWith(Flags.InstancePublic, typeof(CodeAttribute)).Count);
+        }
+
+        [Fact()]
+        public void FieldsWith()
+        {
+            Type type = typeof(Lion);
+            Assert.Equal(2, type.FieldsWith(Flags.InstanceAnyVisibility, typeof(CodeAttribute)).Count);
+        }
+
+        [Fact()]
+        public void PropertiesWith()
+        {
+            Type type = typeof(Lion);
+            Assert.Equal(3, type.PropertiesWith(Flags.InstanceAnyVisibility, typeof(CodeAttribute)).Count);
+        }
     }
 }
 

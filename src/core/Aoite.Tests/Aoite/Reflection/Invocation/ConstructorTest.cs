@@ -76,6 +76,15 @@ namespace Aoite.ReflectionTest.Invocation
         }
 
         [Fact()]
+        public void TestInvokeCtorWithArguments()
+        {
+            var employee = EmployeeType.CreateInstance(new[] { EmployeeType.MakeArrayType() },
+                                                        Flags.InstancePublic,
+                                                       new[] { new Employee[0] });
+            Assert.NotNull(employee);
+            Assert.Equal(0, employee.GetPropertyValue("Subordinates").GetPropertyValue("Length"));
+        }
+        [Fact()]
         public void TestInvokeCtorWithArrayArgument()
         {
             var employee = EmployeeType.CreateInstance(new[] { EmployeeType.MakeArrayType() },

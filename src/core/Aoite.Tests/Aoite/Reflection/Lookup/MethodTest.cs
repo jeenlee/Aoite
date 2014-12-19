@@ -147,7 +147,7 @@ namespace Aoite.ReflectionTest.Lookup
         {
             Flags flags = Flags.InstanceAnyVisibility;
             var methods = typeof(Animal).Methods(null, flags);
-            Assert.Equal(AnimalInstanceMethodNames, methods.Select(m => m.Name).ToList());
+            Assert.Equal(AnimalInstanceMethodNames, methods.Select(m => m.Name).ToArray());
 
             // find methods with no arguments
             methods = typeof(Animal).Methods(new Type[0]);

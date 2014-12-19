@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Aoite.ReflectionTest.Services
 {
-	
+
     public class EventHandlerTest
     {
         class EventSource
@@ -12,22 +12,21 @@ namespace Aoite.ReflectionTest.Services
             private delegate string StringOp(string s);
             public delegate int IntOp(int i);
 
-			#pragma warning disable 0169
-			// ReSharper disable UnusedMember.Local
-			private VoidOp voidOp;
+#pragma warning disable 0169
+            // ReSharper disable UnusedMember.Local
+            private VoidOp voidOp;
             private StringOp stringOp;
             private IntOp intOp;
-
             private static VoidOp StaticVoidOp;
             private static StringOp StaticStringOp;
             private static IntOp StaticIntOp;
 
             private event IntOp intEvent;
             private static event IntOp StaticIntEvent;
-			// ReSharper restore UnusedMember.Local
-			#pragma warning restore 0169
-			
-			public int TriggerEvents(int i)
+            // ReSharper restore UnusedMember.Local
+#pragma warning restore 0169
+
+            public int TriggerEvents(int i)
             {
                 return intEvent(i);
             }
@@ -45,7 +44,7 @@ namespace Aoite.ReflectionTest.Services
             var call = false;
             type.AssignHandler("StaticVoidOp", args => call = true);
             type.InvokeDelegate("StaticVoidOp");
-            Assert.Equal( true, call );
+            Assert.Equal(true, call);
         }
 
         [Fact()]
@@ -73,13 +72,13 @@ namespace Aoite.ReflectionTest.Services
         [Fact()]
         public void Test_assign_instance_no_arg_void_return_delegate()
         {
-            var target = typeof(EventSource).CreateInstance(  );
+            var target = typeof(EventSource).CreateInstance();
             var call = false;
             target.AssignHandler("voidOp", args => call = true);
             target.InvokeDelegate("voidOp");
             Assert.Equal(true, call);
         }
-        
+
         [Fact()]
         public void Test_handle_instance_int_arg_int_return_delegate()
         {
@@ -95,7 +94,7 @@ namespace Aoite.ReflectionTest.Services
         [Fact()]
         public void Test_assign_instance_string_arg_string_return_delegate()
         {
-            var target = typeof(EventSource).CreateInstance(  );
+            var target = typeof(EventSource).CreateInstance();
             target.AddHandler("stringOp", args => (string)args[0] + "1");
             target.AddHandler("stringOp", args => (string)args[0] + "2");
             var result = (string)target.InvokeDelegate("stringOp", "A");
@@ -108,6 +107,7 @@ namespace Aoite.ReflectionTest.Services
             var target = typeof(EventSource).CreateInstance();
             var sum = 0;
             target.AddHandler("intEvent", args => sum += (int)args[0] * 2);
+            Assert.Throws<System.ArgumentException>(() => target.AssignHandler("intEvent", args => sum += (int)args[0] * 2));
             target.AddHandler("intEvent", args => sum += (int)args[0] * 3);
             var result = target.CallMethod("TriggerEvents", 2);
             Assert.Equal(10, sum);

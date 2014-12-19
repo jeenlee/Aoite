@@ -19,14 +19,6 @@ namespace Aoite.Reflection
         {
             this._Target = target;
         }
-        /// <summary>
-        /// 提供一个值类型的实例，初始化一个 <see cref="Aoite.Reflection.DynamicInstance"/> 类的新实例。
-        /// </summary>
-        /// <param name="target">一个值。</param>
-        public DynamicInstance(ref ValueType target)
-        {
-            this._Target = target.WrapIfValueType();
-        }
 
         /// <summary>
         /// Sets the member on the target to the given value. Returns true if the value was
