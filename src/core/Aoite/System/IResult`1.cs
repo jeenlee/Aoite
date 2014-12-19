@@ -8,7 +8,7 @@ namespace System
     /// <summary>
     /// 定义包含一个返回值的结果。
     /// </summary>
-    /// <typeparam name="TValue">返回值的类型。</typeparam>
+    /// <typeparam name="TValue">返回值的数据类型。</typeparam>
     public interface IResult<TValue> : IResult
     {
         /// <summary>

@@ -18,6 +18,8 @@ namespace System
         public static TResult ThrowIfFailded<TResult>(this TResult result)
             where TResult : Result
         {
+            if(string.IsNullOrEmpty(result)) throw new ArgumentNullException("result");
+
             if(result.IsFailed) throw result.Exception;
             return result;
         }
@@ -32,6 +34,8 @@ namespace System
         public static TResult ToFailded<TResult>(this TResult result, Exception exception, int status = ResultStatus.Failed)
            where TResult : Result
         {
+            if(string.IsNullOrEmpty(result)) throw new ArgumentNullException("result");
+
             if(exception != null)
             {
                 result._Message = exception.Message;
@@ -51,6 +55,8 @@ namespace System
         public static TResult ToFailded<TResult>(this TResult result, string message, int status = ResultStatus.Failed)
             where TResult : Result
         {
+            if(string.IsNullOrEmpty(result)) throw new ArgumentNullException("result");
+
             if(message != null)
             {
                 result._Message = message;
@@ -67,6 +73,8 @@ namespace System
         public static TResult ToSuccessed<TResult>(this TResult result)
             where TResult : Result
         {
+            if(string.IsNullOrEmpty(result)) throw new ArgumentNullException("result");
+
             result._Status = ResultStatus.Succeed;
             result._Message = null;
             result._Exception = null;
@@ -83,6 +91,8 @@ namespace System
         public static TResult ToSuccessed<TResult, TValue>(this TResult result, TValue value)
             where TResult : Result<TValue>
         {
+            if(string.IsNullOrEmpty(result)) throw new ArgumentNullException("result");
+
             result._Value = value;
             return ToSuccessed(result);
         }

@@ -11,10 +11,8 @@ namespace System
     [Serializable]
     public class Result : IResult
     {
-        /// <summary>
-        /// 表示成功状态的操作结果的字符串形式。
-        /// </summary>
         internal const string SuccessedString = "执行成功！";
+        internal const string NullValueString = "[null]";
         /// <summary>
         /// 表示成功、且无法修改的结果。
         /// </summary>
@@ -28,7 +26,7 @@ namespace System
         /// <summary>
         /// 获取或设置执行结果描述错误的信息。
         /// </summary>
-        public virtual string Message { get { return this._Message; } set { this._Message = value; } }
+        public virtual string Message { get { return this._Message; } set { this.ToFailded(value); } }
         /// <summary>
         /// 获取或设置执行时发生的错误。结果状态 <see cref="System.ResultStatus.Succeed"/> 时，该值为 null 值。
         /// </summary>
@@ -38,10 +36,7 @@ namespace System
             get
             {
                 if(this._Exception == null && this.IsFailed)
-                {
-                    if(this._Message == null) this._Exception = new ResultException(this._Status);
-                    else this._Exception = new ResultException(this._Message, this._Status);
-                }
+                    this._Exception = new ResultException(this._Message, this._Status);
                 return this._Exception;
             }
             set { this.ToFailded(value); }

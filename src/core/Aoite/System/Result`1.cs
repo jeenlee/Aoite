@@ -8,10 +8,11 @@ namespace System
     /// <summary>
     /// 表示包含一个返回值的结果。
     /// </summary>
-    /// <typeparam name="TValue">返回值的类型。</typeparam>
+    /// <typeparam name="TValue">返回值的数据类型。</typeparam>
     [Serializable]
     public class Result<TValue> : Result, IResult<TValue>
     {
+
         /// <summary>
         /// 表示一个操作结果返回值的类型。
         /// </summary>
@@ -21,11 +22,10 @@ namespace System
         /// 获取或设置结果的返回值。
         /// </summary>
         protected internal TValue _Value;
-
         /// <summary>
         /// 获取或设置结果的返回值。
         /// </summary>
-        public virtual TValue Value { get { return this._Value; } set { this._Value = value; } }
+        public virtual TValue Value { get { return this._Value; } set { this.ToSuccessed(value); } }
 
         /// <summary>
         /// 获取一个值，表示结果的返回值。若当前结果包含错误，将会抛出异常。
@@ -52,17 +52,6 @@ namespace System
         public Result(TValue value) { this._Value = value; }
 
         /// <summary>
-        /// 指定结果的返回值和引发的异常，初始化一个 <see cref="System.Result&lt;TValue&gt;"/> 类的新实例。
-        /// </summary>
-        /// <param name="value">结果的返回值。只有当 <paramref name="exception"/> 为 null 时，此参数才会有效。</param>
-        /// <param name="exception">引发异常的 <see cref="System.Exception"/>。</param>
-        public Result(TValue value, Exception exception)
-            : base(exception)
-        {
-            if(exception == null) this._Value = value;
-        }
-
-        /// <summary>
         /// 指定引发的异常和状态码，初始化一个 <see cref="System.Result&lt;TValue&gt;"/> 类的新实例。
         /// </summary>
         /// <param name="exception">引发异常的 <see cref="System.Exception"/>。</param>
@@ -84,7 +73,7 @@ namespace System
         {
             if(this.IsSucceed)
             {
-                if(this._Value == null) return "[null]";
+                if(this._Value == null) return NullValueString;
                 return this._Value.ToString();
             }
             return base.ToString();
@@ -132,6 +121,5 @@ namespace System
         {
             return ValueType;
         }
-
     }
 }

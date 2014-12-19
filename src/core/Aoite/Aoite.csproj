@@ -48,6 +48,58 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aoite\Reflection\Caching\Cache.cs" />
+    <Compile Include="Aoite\Reflection\Caching\CacheStrategy.cs" />
+    <Compile Include="Aoite\Reflection\Core\Constants.cs" />
+    <Compile Include="Aoite\Reflection\Core\Delegates.cs" />
+    <Compile Include="Aoite\Reflection\Core\Flags.cs" />
+    <Compile Include="Aoite\Reflection\Core\MemberFilter.cs" />
+    <Compile Include="Aoite\Reflection\Core\Utils.cs" />
+    <Compile Include="Aoite\Reflection\DynamicReflection\DynamicBuilder.cs" />
+    <Compile Include="Aoite\Reflection\DynamicReflection\DynamicInstance.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\ArrayGetEmitter.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\ArraySetEmitter.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\BaseEmitter.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\CallInfo.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\CtorInvocationEmitter.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\EmitHelper.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\InvocationEmitter.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\LookupUtils.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\MapCallInfo.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\MapEmitter.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\MemberGetEmitter.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\MemberSetEmitter.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\MethodInvocationEmitter.cs" />
+    <Compile Include="Aoite\Reflection\Emitter\ValueTypeHolder.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\ArrayExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\AssemblyExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\AttributeExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\ConstructorExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\ConstructorInfoExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\FieldExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\FieldInfoExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\MemberExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\MemberInfoExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\MethodExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\MethodInfoExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\ParameterInfoExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\PropertyExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\PropertyInfoExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\TypeExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Core\ValueTypeExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\CloneExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\EventExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\MapExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\Probing\ConstructorMap.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\Probing\MapFactory.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\Probing\MethodDispatcher.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\Probing\MethodMap.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\Probing\SourceInfo.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\Probing\TypeConverter.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\TryCallMethodExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\TryCreateInstanceExtensions.cs" />
+    <Compile Include="Aoite\Reflection\Extensions\Services\TryInvokeWithValuesExtensions.cs" />
+    <Compile Include="Aoite\Reflection\DynamicReflection\DynamicProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\IgnoreAttribute.cs" />
     <Compile Include="System\IResult.cs" />
@@ -59,9 +111,7 @@
     <Compile Include="System\Result`1.cs" />
     <Compile Include="System\SuccessfullyResult.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Aoite\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="..\..\..\comm\keys\aoite.snk">
       <Link>aoite.snk</Link>
