@@ -5,7 +5,7 @@ using System.Text;
 
 namespace System
 {
-    class IAsyncJob
+    class BinaryValue
     {
     }
 }

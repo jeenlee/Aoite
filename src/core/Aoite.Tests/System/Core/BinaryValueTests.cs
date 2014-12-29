@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Xunit;
 
 namespace System
 {
-    class Ajob
+    public class BinaryValueTests
     {
+        [Fact()]
+        public void Test()
+        {
+
+        }
     }
 }

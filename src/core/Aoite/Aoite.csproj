@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Aoite.XML</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Aoite.XML</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -101,16 +103,34 @@
     <Compile Include="Aoite\Reflection\Extensions\Services\TryInvokeWithValuesExtensions.cs" />
     <Compile Include="Aoite\Reflection\DynamicReflection\DynamicProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="System\Ajob.cs" />
-    <Compile Include="System\Ajob\IAsyncJob.cs" />
-    <Compile Include="System\Attribute\IgnoreAttribute.cs" />
+    <Compile Include="System\Attributes\AliasAttribute.cs" />
+    <Compile Include="System\Collections\Generic\ConsistentHash`1.cs" />
+    <Compile Include="System\Core\Ajob.cs" />
+    <Compile Include="System\Core\AoiteInfo.cs" />
+    <Compile Include="System\Core\AssemblyReflectionProxy.cs" />
+    <Compile Include="System\Core\BinaryValue.cs" />
+    <Compile Include="System\Core\CodeTimer.cs" />
+    <Compile Include="System\Core\DataSecurity.cs" />
+    <Compile Include="System\Core\GridData.cs" />
+    <Compile Include="System\Core\Isolated`1.cs" />
+    <Compile Include="Aoite\Data\Core\AoiteTable.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="System\EventArgs\ExceptionEventArgs.cs" />
+    <Compile Include="System\Core\IAsyncJob.cs" />
+    <Compile Include="System\Attributes\IgnoreAttribute.cs" />
+    <Compile Include="System\Core\LockSlim.cs" />
     <Compile Include="System\Disposable\IObjectDisposable.cs" />
     <Compile Include="System\Disposable\ObjectDisposableBase.cs" />
+    <Compile Include="System\Extensions\CollectionsExtensions.cs" />
+    <Compile Include="System\Extensions\NetExtensions.cs" />
+    <Compile Include="System\Extensions\StringExtensions.cs" />
+    <Compile Include="System\Random\FastRandom.cs" />
     <Compile Include="System\Result\IResult.cs" />
     <Compile Include="System\Result\IResult`1.cs" />
     <Compile Include="System\Result\Result.cs" />
     <Compile Include="System\Result\ResultException.cs" />
-    <Compile Include="System\Result\ResultExtensions.cs" />
+    <Compile Include="System\Extensions\ResultExtensions.cs" />
     <Compile Include="System\Result\ResultStatus.cs" />
     <Compile Include="System\Result\Result`1.cs" />
     <Compile Include="System\Result\SuccessfullyResult.cs" />
