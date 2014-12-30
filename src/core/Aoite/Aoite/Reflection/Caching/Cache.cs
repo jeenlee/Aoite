@@ -15,7 +15,6 @@ namespace Aoite.Reflection.Caching
         {
             entries = new ConcurrentDictionary<TKey, object>();
         }
-
         public Cache(IEqualityComparer<TKey> equalityComparer)
         {
             entries = new ConcurrentDictionary<TKey, object>(equalityComparer);

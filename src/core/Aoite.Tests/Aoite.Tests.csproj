@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aoite\Aop\Samples\AopSamples.cs" />
     <Compile Include="System\Attributes\AliasAttributeTests.cs" />
     <Compile Include="Aoite\Data\Core\AoiteTableTests.cs" />
     <Compile Include="Aoite\Reflection\Common\BaseTest.cs" />
@@ -122,8 +123,11 @@
     <Compile Include="System\Core\AssemblyReflectionProxyTests.cs" />
     <Compile Include="System\Core\BinaryValueTests.cs" />
     <Compile Include="System\Core\DataSecurityTests.cs" />
+    <Compile Include="System\Core\GridDataTests.cs" />
+    <Compile Include="System\Core\IsolatedTests.cs" />
     <Compile Include="System\Core\LockSlimTests.cs" />
     <Compile Include="System\Disposable\ObjectDisposableBaseTests.cs" />
+    <Compile Include="System\Extensions\CollectionsExtensionsTests.cs" />
     <Compile Include="System\Random\FastRandomTests.cs" />
     <Compile Include="System\Attributes\IgnoreAttributeTests.cs" />
     <Compile Include="System\Result\Result1Tests.cs" />
@@ -146,6 +150,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

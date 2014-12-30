@@ -50,7 +50,7 @@ namespace Aoite.Data
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-            info.AddValue("TotalRowCount", TotalRowCount);
+            info.AddValue("TotalRowCount", TotalRowCount); 
         }
     }
 }

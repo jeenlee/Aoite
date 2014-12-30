@@ -154,6 +154,7 @@ namespace System
         /// <returns>返回一个新的字符串 -或- 原字符串，该字符串的最大长度不超过 <paramref name="maxLength"/>。</returns>
         public static string CutString(this string input, int maxLength, string ellipsis = "...")
         {
+            if(maxLength < 1) throw new ArgumentOutOfRangeException("maxLength");
             if(input == null || input.Length <= maxLength) return input;
             maxLength = maxLength - ellipsis.Length;
             return input.Substring(0, maxLength) + ellipsis;
