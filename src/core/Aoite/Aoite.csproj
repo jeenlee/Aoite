@@ -66,15 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aoite\AoiteInfo.cs" />
-    <Compile Include="Aoite\Aop\Core\AopAttribute.cs" />
-    <Compile Include="Aoite\Aop\Core\AopObject.cs" />
-    <Compile Include="Aoite\Aop\Core\AopSetting.cs" />
-    <Compile Include="Aoite\Aop\Core\CallAction.cs" />
-    <Compile Include="Aoite\Aop\Core\EnterInvokeMessage.cs" />
-    <Compile Include="Aoite\Aop\Core\LeaveInvokeMessage.cs" />
-    <Compile Include="Aoite\Aop\Sinks\ConstructionCallSink.cs" />
-    <Compile Include="Aoite\Aop\Sinks\MethodCallSink.cs" />
-    <Compile Include="Aoite\Aop\Sinks\SinkBase.cs" />
     <Compile Include="Aoite\Cache\CacheOptions.cs" />
     <Compile Include="Aoite\Cache\ICacheGroup.cs" />
     <Compile Include="Aoite\Cache\ICacheProvider.cs" />

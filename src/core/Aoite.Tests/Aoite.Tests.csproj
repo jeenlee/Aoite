@@ -51,7 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aoite\Aop\Samples\AopSamples.cs" />
+    <Compile Include="Aoite\Data\Samples\BuilderTests.cs" />
+    <Compile Include="Aoite\Data\Samples\SelectCommandBuilderTests.cs" />
     <Compile Include="System\Attributes\AliasAttributeTests.cs" />
     <Compile Include="Aoite\Data\Core\AoiteTableTests.cs" />
     <Compile Include="Aoite\Reflection\Common\BaseTest.cs" />

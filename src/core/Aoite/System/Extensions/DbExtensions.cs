@@ -305,7 +305,6 @@ namespace System
                 foreach(var mp2 in m2.Properties)
                 {
                     if(mp2.IsIgnore) continue;
-                    //if(!m1.ContainsProperty(mp2.Name)) continue;
                     fieldList.Add(parSetting.EscapeName(mp2.Name));
                 }
                 fields = fieldList.ToArray().Join();
