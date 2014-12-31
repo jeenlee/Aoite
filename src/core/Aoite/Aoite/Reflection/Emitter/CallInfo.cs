@@ -38,7 +38,7 @@ namespace Aoite.Reflection.Emitter
 				: parameterTypes;
 			MemberInfo = memberInfo;
 			IsReadOperation = isReadOperation;
-			// TODO why do we set this here? it is overwritten in MethodInvocationEmitter
+			//  why do we set this here? it is overwritten in MethodInvocationEmitter
 			IsStatic = BindingFlags.IsSet( Flags.Static );
 		}
 

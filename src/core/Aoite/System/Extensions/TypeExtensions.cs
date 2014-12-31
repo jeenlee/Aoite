@@ -64,7 +64,7 @@ namespace System
         /// <returns>返回可空类型的真实类型，若当前类型非可空类型则返回原始值。</returns>
         public static Type GetNullableType(this Type type)
         {
-            return Nullable.GetUnderlyingType(type)??type;
+            return Nullable.GetUnderlyingType(type) ?? type;
             //return (type.IsValueType && type.IsGenericType && type.GetGenericTypeDefinition().Equals(Types.Nullable))
             //    ? type.GetGenericArguments()[0]
             //    : type;

@@ -66,17 +66,6 @@ namespace System
         public Result(string message, int status = ResultStatus.Failed) : base(message, status) { }
 
         /// <summary>
-        /// 指定结果的返回值和引发的异常，初始化一个 <see cref="System.Result&lt;TValue&gt;"/> 类的新实例。
-        /// </summary>
-        /// <param name="value">结果的返回值。只有当 <paramref name="exception"/> 为 null 时，此参数才会有效。</param>
-        /// <param name="exception">引发异常的 <see cref="System.Exception"/>。</param>
-        public Result(TValue value, Exception exception)
-            : base(exception)
-        {
-            if(exception == null) this._Value = value;
-        }
-
-        /// <summary>
         /// 返回以字符串形式描述的结果。
         /// </summary>
         /// <returns>如果这是一个成功的操作结果，将返回字符串形式的值，否则返回异常的描述信息。</returns>

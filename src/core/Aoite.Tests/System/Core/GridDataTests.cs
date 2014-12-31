@@ -16,6 +16,7 @@ namespace System
                 Rows = new int[] { 1, 2, 3, 4, 5 }
             };
             Assert.Equal(5, grid.Total);
+            Assert.Equal(new int[] { 1, 2, 3, 4, 5 }, grid.Rows);
         }
     }
 }

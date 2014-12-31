@@ -1,4 +1,4 @@
-﻿using Aoite.Data;
+﻿//using Aoite.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace System.Collections.Generic
             if(collection == null) throw new ArgumentNullException("collection");
             return new GridData<TEntity>() { Rows = collection.ToArray(), Total = totalCount };
         }
-
+        /* TODO：未完成。需要完成 EntityMapper 模块。
         /// <summary>
         /// 将指定的集合转换为数据表格。
         /// </summary>
@@ -49,6 +49,7 @@ namespace System.Collections.Generic
             table.TotalRowCount = totalCount > 0 ? totalCount : table.Rows.Count;
             return table;
         }
+         */
 
         /// <summary>
         /// 获取与指定的键相关联的值。
@@ -133,7 +134,7 @@ namespace System.Collections.Generic
         public static IEnumerable<T> Random<T>(this IEnumerable<T> e, int max = 0)
         {
             if(e == null) throw new ArgumentNullException("e");
-         
+
             long tick = DateTime.Now.Ticks;
             List<T> list = new List<T>(e);
             if(max < 1) max = FastRandom.Instance.Next(1, list.Count);

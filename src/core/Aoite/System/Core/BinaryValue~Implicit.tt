@@ -1,0 +1,59 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+    var arrays = new Type[] 
+    { 
+        typeof(Boolean),
+        typeof(Char), 
+        typeof(Double), 
+        typeof(Int16), 
+        typeof(Int32), 
+        typeof(Int64), 
+        typeof(Single), 
+        typeof(UInt16), 
+        typeof(UInt32), 
+        typeof(UInt64)
+    };
+#>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+namespace System
+{
+    partial class BinaryValue
+    {
+<#
+    foreach(var type in arrays)
+    {
+#>
+        /// <summary>
+        /// <see cref="System.BinaryValue"/> 和 <see cref="<#=type.FullName #>"/> 的隐式转换。
+        /// </summary>
+        /// <param name="value">一个二进制的值。</param>
+        /// <returns>返回一个 <see cref="<#=type.FullName #>"/> 的新实例。</returns>
+        public static implicit operator <#=type.Name #>(BinaryValue value)
+        {
+            if(value == null) return default(<#=type.Name #>);
+            return BitConverter.To<#=type.Name #>(value._ByteArray, 0);
+        }
+
+        /// <summary>
+        /// <see cref="<#=type.FullName #>"/> 和 <see cref="System.BinaryValue"/> 的隐式转换。
+        /// </summary>
+        /// <param name="value">一个 <see cref="<#=type.FullName #>"/> 的新实例。</param>
+        /// <returns>一个二进制的值。</returns>
+        public static implicit operator BinaryValue(<#=type.Name #> value)
+        {
+            return new BinaryValue(BitConverter.GetBytes(value));
+        }
+
+<#
+    }
+#>
+    }
+}

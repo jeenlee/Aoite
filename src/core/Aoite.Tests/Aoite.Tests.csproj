@@ -127,6 +127,7 @@
     <Compile Include="System\Core\GridDataTests.cs" />
     <Compile Include="System\Core\IsolatedTests.cs" />
     <Compile Include="System\Core\LockSlimTests.cs" />
+    <Compile Include="System\Core\MeanTests.cs" />
     <Compile Include="System\Disposable\ObjectDisposableBaseTests.cs" />
     <Compile Include="System\Extensions\CollectionsExtensionsTests.cs" />
     <Compile Include="System\Random\FastRandomTests.cs" />

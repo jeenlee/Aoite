@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace System.Extensions
+namespace System
 {
-    class NetExtensions
+    interface ITypeMapper
     {
     }
 }

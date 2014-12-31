@@ -51,8 +51,33 @@ namespace System
         {
             int testCount = 0;
             var token = Ajob.Loop(j => testCount++, 300);
-            if(!token.Wait(1000)) token.Cancel();
+            token.Wait(1000);
+            token.Cancel();
             Assert.Equal(3, testCount);
+            Threading.Thread.Sleep(1000);
+            Assert.Equal(3, testCount);
+        }
+
+        [Fact]
+        public void CancelTest()
+        {
+            Exception ex = null;
+            Ajob.GlobalError += (ss, ee) =>
+            {
+                ex = ee.Exception;
+            };
+            int testCount = 0;
+            var token = Ajob.Loop(j =>
+            {
+                j.Delay(5000);
+                testCount++;
+            }, 300);
+            Threading.Thread.Sleep(1000);
+            token.Cancel();
+            Assert.Equal(0, testCount);
+            Threading.Thread.Sleep(5000);
+            Assert.Equal(1, testCount);
+            Assert.Null(ex);
         }
     }
 }

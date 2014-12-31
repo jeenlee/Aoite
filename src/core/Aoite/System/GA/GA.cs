@@ -41,7 +41,6 @@ namespace System
                                   select true).FirstOrDefault();
         }
 
-
         /// <summary>
         /// 将指定的命令行进行拆分。
         /// </summary>
@@ -79,13 +78,14 @@ namespace System
         [System.Runtime.InteropServices.DllImport("kernel32.dll")]
         static extern IntPtr LocalFree(IntPtr hMem);
 
-        private readonly static bool _IsUnitTestRuntime;
+        private static bool _IsUnitTestRuntime;
         /// <summary>
-        /// 获取一个值，指示当前是否为单元测试的运行环境。
+        /// 获取或设置一个值，指示当前是否为单元测试的运行环境。
         /// </summary>
         public static bool IsUnitTestRuntime
         {
             get { return _IsUnitTestRuntime; }
+            set { _IsUnitTestRuntime = value; }
         }
 
         /// <summary>
@@ -128,6 +128,8 @@ namespace System
         /// <returns>若 <paramref name="path"/> 是绝对路径，则返回本身，否则返回基于当前应用程序目录的绝对路径。</returns>
         public static string FullPath(string path)
         {
+            if(string.IsNullOrEmpty(path)) throw new ArgumentNullException("path");
+
             if(Path.IsPathRooted(path)) return path;
             return Path.Combine(AppDirectory, path);
         }
@@ -139,45 +141,9 @@ namespace System
         /// <returns>一个包含内容 URL 的字符串。</returns>
         public static string MapUrl(string contentPath)
         {
+            if(string.IsNullOrEmpty(contentPath)) throw new ArgumentNullException("contentPath");
             return VirtualPathUtility.Combine(HttpRuntime.AppDomainAppVirtualPath
                 , VirtualPathUtility.ToAbsolute(contentPath, HttpRuntime.AppDomainAppVirtualPath));
-        }
-
-        #endregion
-
-        //- 还未融入工厂模式
-        #region NewId
-
-        /// <summary>
-        /// 生成全局唯一标识（存在重复的可能性，但极低）。
-        /// </summary>
-        /// <returns>返回一个 <see cref="System.Int64"/> 的实例。</returns>
-        [Obsolete("请调用 System.GA.NewId(string = null)")]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public static long CreateUniqueIdentifier()
-        {
-            return BitConverter.ToInt64(Guid.NewGuid().ToByteArray(), 0);
-        }
-
-        /// <summary>
-        /// 提供键的关联类型，生成一个唯一的 64 位键值。
-        /// </summary>
-        /// <typeparam name="T">键的关联类型。</typeparam>
-        /// <returns>返回一个 64 位值。</returns>
-        public static long NewId<T>()
-            where T : class
-        {
-            return NewId(typeof(T).Name);
-        }
-
-        /// <summary>
-        /// 提供一个键名，生成一个唯一的 64 位键值。
-        /// </summary>
-        /// <param name="key">键名。</param>
-        /// <returns>返回一个 64 位值。</returns>
-        public static long NewId(string key = null)
-        {
-            return BitConverter.ToInt64(Guid.NewGuid().ToByteArray(), 0);
         }
 
         #endregion
@@ -220,64 +186,64 @@ namespace System
 
         #region Compare
 
-        private static CompareResult Compare(string name, Type type, object t1, object t2)
-        {
-            type = type.GetNullableType();
-            switch(Type.GetTypeCode(type))
-            {
-                case TypeCode.Object:
-                    if(t1 == null || t2 == null) goto default;
-                    if(type.IsSubclassOf(Types.Exception) || type == Types.Exception)
-                    {
-                        t1 = t1.ToString();
-                        t2 = t2.ToString();
-                        goto default;
-                    }
-                    var mp = Aoite.Data.EntityMapper.Create(type);
-                    foreach(var p in mp.Properties)
-                    {
-                        try
-                        {
-                            var v1 = p.GetValue(t1);
-                            var v2 = p.GetValue(t2);
-                            var r = Compare(p.Property.Name, p.Property.PropertyType, v1, v2);
-                            if(r != null) return null;
-                        }
-                        catch(Exception)
-                        {
-                            throw;
-                        }
-                    }
-                    break;
-                default:
-                    if(!object.Equals(t1, t2))
-                    {
-                        return new CompareResult()
-                        {
-                            Name = name,
-                            Value1 = t1,
-                            Value2 = t2
-                        };
-                    }
-                    break;
-            }
-            return null;
-        }
-        /// <summary>
-        /// 深度比较两个对象。
-        /// </summary>
-        /// <typeparam name="T">对象的数据类型。</typeparam>
-        /// <param name="t1">第一个对象的实例。</param>
-        /// <param name="t2">第二个对象的实例。</param>
-        /// <returns></returns>
-        public static CompareResult Compare<T>(this T t1, T t2) where T : class
-        {
-            var type = typeof(T);
-            return Compare(type.Name, type, t1, t2);
-        }
+        //private static CompareResult Compare(string name, Type type, object t1, object t2)
+        //{
+        //    type = type.GetNullableType();
+        //    switch(Type.GetTypeCode(type))
+        //    {
+        //        case TypeCode.Object:
+        //            if(t1 == null || t2 == null) goto default;
+        //            if(type.IsSubclassOf(Types.Exception) || type == Types.Exception)
+        //            {
+        //                t1 = t1.ToString();
+        //                t2 = t2.ToString();
+        //                goto default;
+        //            }
+        //            var mp = Aoite.Data.EntityMapper.Create(type);
+        //            foreach(var p in mp.Properties)
+        //            {
+        //                try
+        //                {
+        //                    var v1 = p.GetValue(t1);
+        //                    var v2 = p.GetValue(t2);
+        //                    var r = Compare(p.Property.Name, p.Property.PropertyType, v1, v2);
+        //                    if(r != null) return null;
+        //                }
+        //                catch(Exception)
+        //                {
+        //                    throw;
+        //                }
+        //            }
+        //            break;
+        //        default:
+        //            if(!object.Equals(t1, t2))
+        //            {
+        //                return new CompareResult()
+        //                {
+        //                    Name = name,
+        //                    Value1 = t1,
+        //                    Value2 = t2
+        //                };
+        //            }
+        //            break;
+        //    }
+        //    return null;
+        //}
+
+        ///// <summary>
+        ///// 深度比较两个对象。
+        ///// </summary>
+        ///// <typeparam name="T">对象的数据类型。</typeparam>
+        ///// <param name="t1">第一个对象的实例。</param>
+        ///// <param name="t2">第二个对象的实例。</param>
+        ///// <returns></returns>
+        //public static CompareResult Compare<T>(this T t1, T t2) where T : class
+        //{
+        //    var type = typeof(T);
+        //    return Compare(type.Name, type, t1, t2);
+        //}
 
         #endregion
-
 
         /// <summary>
         /// 加载指定程序集列表的程序集（避免程序集的延迟加载）。
@@ -311,89 +277,89 @@ namespace System
             return AssemblyList.ToArray();
         }
 
-        /// <summary>
-        /// 创建一个模拟对象。
-        /// </summary>
-        /// <typeparam name="TModel">对象的数据类型。</typeparam>
-        /// <returns>返回要一个模拟的对象。</returns>
-        public static TModel CreateMockModel<TModel>()
-        {
-            var mapper = Aoite.Data.EntityMapper.Instance<TModel>.Mapper;
-            var m = Activator.CreateInstance<TModel>();
-            foreach(var p in mapper.Properties)
-            {
-                var pType = p.Property.PropertyType.GetNullableType();
-                if(pType == Types.Guid)
-                {
-                    p.SetValue(m, Guid.NewGuid());
-                    continue;
-                }
-                var randomNumber = RandomString.Instance.GenerateNumber();
-                if(pType.IsEnum)
-                {
-                    var values = Enum.GetValues(pType);
-                    p.SetValue(m, values.GetValue(randomNumber % values.Length));
-                    continue;
-                }
-                switch(Type.GetTypeCode(pType))
-                {
-                    case TypeCode.Boolean:
-                        p.SetValue(m, randomNumber % 2 == 0);
-                        break;
-                    case TypeCode.Byte:
-                        p.SetValue(m, (Byte)((randomNumber * 1.5 + 65535) % Byte.MaxValue));
-                        break;
-                    case TypeCode.Char:
-                        p.SetValue(m, (Char)((randomNumber * 1.5 + 65535) % Char.MaxValue));
-                        break;
-                    case TypeCode.DBNull:
-                        p.SetValue(m, DBNull.Value);
-                        break;
-                    case TypeCode.DateTime:
-                        p.SetValue(m, DateTime.Now.AddMinutes(randomNumber % 1024));
-                        break;
-                    case TypeCode.Decimal:
-                        p.SetValue(m, (Decimal)((randomNumber * 1.5M + 65535) % Decimal.MaxValue));
-                        break;
-                    case TypeCode.Double:
-                        p.SetValue(m, (Double)((randomNumber * 1.5 + 65535) % Double.MaxValue));
-                        break;
-                    case TypeCode.Empty:
-                        p.SetValue(m, null);
-                        break;
-                    case TypeCode.Int16:
-                        p.SetValue(m, (Int16)((randomNumber * 1.5 + 65535) % Int16.MaxValue));
-                        break;
-                    case TypeCode.Int32:
-                        p.SetValue(m, (Int32)((randomNumber * 1.5 + 65535) % Int32.MaxValue));
-                        break;
-                    case TypeCode.Int64:
-                        p.SetValue(m, (Int64)((randomNumber * 1.5 + 65535) % Int64.MaxValue));
-                        break;
-                    case TypeCode.SByte:
-                        p.SetValue(m, (SByte)((randomNumber * 1.5 + 65535) % SByte.MaxValue));
-                        break;
-                    case TypeCode.Single:
-                        p.SetValue(m, (Single)((randomNumber * 1.5 + 65535) % Single.MaxValue));
-                        break;
-                    case TypeCode.String:
-                        p.SetValue(m, RandomString.Instance.Generate(randomNumber % 30 + 3));
-                        break;
-                    case TypeCode.UInt16:
-                        p.SetValue(m, (UInt16)((randomNumber * 1.5 + 65535) % UInt16.MaxValue));
-                        break;
-                    case TypeCode.UInt32:
-                        p.SetValue(m, (UInt32)((randomNumber * 1.5 + 65535) % UInt32.MaxValue));
-                        break;
-                    case TypeCode.UInt64:
-                        p.SetValue(m, (UInt64)((randomNumber * 1.5 + 65535) % UInt64.MaxValue));
-                        break;
-                    default:
-                        throw new NotSupportedException(pType.FullName);
-                }
-            }
-            return m;
-        }
+        ///// <summary>
+        ///// 创建一个模拟对象。
+        ///// </summary>
+        ///// <typeparam name="TModel">对象的数据类型。</typeparam>
+        ///// <returns>返回要一个模拟的对象。</returns>
+        //public static TModel CreateMockModel<TModel>()
+        //{
+        //    var mapper = Aoite.Data.EntityMapper.Instance<TModel>.Mapper;
+        //    var m = Activator.CreateInstance<TModel>();
+        //    foreach(var p in mapper.Properties)
+        //    {
+        //        var pType = p.Property.PropertyType.GetNullableType();
+        //        if(pType == Types.Guid)
+        //        {
+        //            p.SetValue(m, Guid.NewGuid());
+        //            continue;
+        //        }
+        //        var randomNumber = RandomString.Instance.GenerateNumber();
+        //        if(pType.IsEnum)
+        //        {
+        //            var values = Enum.GetValues(pType);
+        //            p.SetValue(m, values.GetValue(randomNumber % values.Length));
+        //            continue;
+        //        }
+        //        switch(Type.GetTypeCode(pType))
+        //        {
+        //            case TypeCode.Boolean:
+        //                p.SetValue(m, randomNumber % 2 == 0);
+        //                break;
+        //            case TypeCode.Byte:
+        //                p.SetValue(m, (Byte)((randomNumber * 1.5 + 65535) % Byte.MaxValue));
+        //                break;
+        //            case TypeCode.Char:
+        //                p.SetValue(m, (Char)((randomNumber * 1.5 + 65535) % Char.MaxValue));
+        //                break;
+        //            case TypeCode.DBNull:
+        //                p.SetValue(m, DBNull.Value);
+        //                break;
+        //            case TypeCode.DateTime:
+        //                p.SetValue(m, DateTime.Now.AddMinutes(randomNumber % 1024));
+        //                break;
+        //            case TypeCode.Decimal:
+        //                p.SetValue(m, (Decimal)((randomNumber * 1.5M + 65535) % Decimal.MaxValue));
+        //                break;
+        //            case TypeCode.Double:
+        //                p.SetValue(m, (Double)((randomNumber * 1.5 + 65535) % Double.MaxValue));
+        //                break;
+        //            case TypeCode.Empty:
+        //                p.SetValue(m, null);
+        //                break;
+        //            case TypeCode.Int16:
+        //                p.SetValue(m, (Int16)((randomNumber * 1.5 + 65535) % Int16.MaxValue));
+        //                break;
+        //            case TypeCode.Int32:
+        //                p.SetValue(m, (Int32)((randomNumber * 1.5 + 65535) % Int32.MaxValue));
+        //                break;
+        //            case TypeCode.Int64:
+        //                p.SetValue(m, (Int64)((randomNumber * 1.5 + 65535) % Int64.MaxValue));
+        //                break;
+        //            case TypeCode.SByte:
+        //                p.SetValue(m, (SByte)((randomNumber * 1.5 + 65535) % SByte.MaxValue));
+        //                break;
+        //            case TypeCode.Single:
+        //                p.SetValue(m, (Single)((randomNumber * 1.5 + 65535) % Single.MaxValue));
+        //                break;
+        //            case TypeCode.String:
+        //                p.SetValue(m, RandomString.Instance.Generate(randomNumber % 30 + 3));
+        //                break;
+        //            case TypeCode.UInt16:
+        //                p.SetValue(m, (UInt16)((randomNumber * 1.5 + 65535) % UInt16.MaxValue));
+        //                break;
+        //            case TypeCode.UInt32:
+        //                p.SetValue(m, (UInt32)((randomNumber * 1.5 + 65535) % UInt32.MaxValue));
+        //                break;
+        //            case TypeCode.UInt64:
+        //                p.SetValue(m, (UInt64)((randomNumber * 1.5 + 65535) % UInt64.MaxValue));
+        //                break;
+        //            default:
+        //                throw new NotSupportedException(pType.FullName);
+        //        }
+        //    }
+        //    return m;
+        //}
 
     }
 }

@@ -1,3 +1,0 @@
-﻿https://github.com/ctstone/csredis
-latest commit 81ea387df4
-81ea387df441d3d9585c0ce11fb4acef6e7b521a
