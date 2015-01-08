@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -28,6 +29,19 @@ namespace System
         /// 获取 Aoite 的临时目录。
         /// </summary>
         public static readonly string TempFolder = Path.Combine(Path.GetTempPath(), "Aoite - " + Aoite.AoiteInfo.AssemblyVersion);
+        /// <summary>
+        /// 当要求抛出错误时的全局事件。
+        /// </summary>
+        public static event ExceptionEventHandler GlobalError;
+
+        internal static void OnGlobalError(object sender, Exception exception)
+        {
+            System.Diagnostics.Trace.Assert(sender != null);
+            System.Diagnostics.Trace.Assert(exception != null);
+            System.Diagnostics.Trace.TraceError(exception.ToString());
+            var handler = GlobalError;
+            if(handler != null) handler(sender, new ExceptionEventArgs(exception));
+        }
 
         #region Comm
 
@@ -39,6 +53,23 @@ namespace System
                                   || fn.iStartsWith("xunit")
                                   || fn.iStartsWith("nuint")
                                   select true).FirstOrDefault();
+        }
+
+        [DllImport("rpcrt4.dll", SetLastError = true)]
+        static extern int UuidCreateSequential(out Guid guid);
+
+        /// <summary>
+        /// 初始化一个有顺序规则 <see cref="System.Guid"/> 的新实例。
+        /// </summary>
+        /// <returns>返回一个 <see cref="System.Guid"/> 的新实例。</returns>
+        public static Guid NewComb()
+        {
+            const int RPC_S_OK = 0;
+            Guid guid;
+            int result = UuidCreateSequential(out guid);
+            if(result == RPC_S_OK)  return guid;
+            else
+                return Guid.NewGuid();
         }
 
         /// <summary>
@@ -144,6 +175,39 @@ namespace System
             if(string.IsNullOrEmpty(contentPath)) throw new ArgumentNullException("contentPath");
             return VirtualPathUtility.Combine(HttpRuntime.AppDomainAppVirtualPath
                 , VirtualPathUtility.ToAbsolute(contentPath, HttpRuntime.AppDomainAppVirtualPath));
+        }
+
+        /// <summary>
+        /// 使用指定的对象数组和格式设置信息向 <see cref="System.Diagnostics.Trace.Listeners"/> 集合中的跟踪侦听器中写入错误消息。
+        /// </summary>
+        /// <param name="format">包含零个或多个格式项的格式字符串，这些项与 <paramref name="args"/> 数组中的对象相对应。</param>
+        /// <param name="args">包含零个或多个要格式化的对象的 <see cref="object"/> 数组。</param>
+        [Conditional("TRACE")]
+        public static void TraceError(string format, params object[] args)
+        {
+            System.Diagnostics.Trace.TraceError(format, args);
+        }
+
+        /// <summary>
+        /// 使用指定的对象数组和格式设置信息向 <see cref="System.Diagnostics.Trace.Listeners"/> 集合中的跟踪侦听器中写入警告信息。
+        /// </summary>
+        /// <param name="format">包含零个或多个格式项的格式字符串，这些项与 <paramref name="args"/> 数组中的对象相对应。</param>
+        /// <param name="args">包含零个或多个要格式化的对象的 <see cref="object"/> 数组。</param>
+        [Conditional("TRACE")]
+        public static void TraceWarning(string format, params object[] args)
+        {
+            System.Diagnostics.Trace.TraceWarning(format, args);
+        }
+
+        /// <summary>
+        /// 使用指定的对象数组和格式设置信息向 <see cref="System.Diagnostics.Trace.Listeners"/> 集合中的跟踪侦听器中写入信息性消息。
+        /// </summary>
+        /// <param name="format">包含零个或多个格式项的格式字符串，这些项与 <paramref name="args"/> 数组中的对象相对应。</param>
+        /// <param name="args">包含零个或多个要格式化的对象的 <see cref="object"/> 数组。</param>
+        [Conditional("TRACE")]
+        public static void TraceInformation(string format, params object[] args)
+        {
+            System.Diagnostics.Trace.TraceInformation(format, args);
         }
 
         #endregion
@@ -277,89 +341,77 @@ namespace System
             return AssemblyList.ToArray();
         }
 
-        ///// <summary>
-        ///// 创建一个模拟对象。
-        ///// </summary>
-        ///// <typeparam name="TModel">对象的数据类型。</typeparam>
-        ///// <returns>返回要一个模拟的对象。</returns>
-        //public static TModel CreateMockModel<TModel>()
-        //{
-        //    var mapper = Aoite.Data.EntityMapper.Instance<TModel>.Mapper;
-        //    var m = Activator.CreateInstance<TModel>();
-        //    foreach(var p in mapper.Properties)
-        //    {
-        //        var pType = p.Property.PropertyType.GetNullableType();
-        //        if(pType == Types.Guid)
-        //        {
-        //            p.SetValue(m, Guid.NewGuid());
-        //            continue;
-        //        }
-        //        var randomNumber = RandomString.Instance.GenerateNumber();
-        //        if(pType.IsEnum)
-        //        {
-        //            var values = Enum.GetValues(pType);
-        //            p.SetValue(m, values.GetValue(randomNumber % values.Length));
-        //            continue;
-        //        }
-        //        switch(Type.GetTypeCode(pType))
-        //        {
-        //            case TypeCode.Boolean:
-        //                p.SetValue(m, randomNumber % 2 == 0);
-        //                break;
-        //            case TypeCode.Byte:
-        //                p.SetValue(m, (Byte)((randomNumber * 1.5 + 65535) % Byte.MaxValue));
-        //                break;
-        //            case TypeCode.Char:
-        //                p.SetValue(m, (Char)((randomNumber * 1.5 + 65535) % Char.MaxValue));
-        //                break;
-        //            case TypeCode.DBNull:
-        //                p.SetValue(m, DBNull.Value);
-        //                break;
-        //            case TypeCode.DateTime:
-        //                p.SetValue(m, DateTime.Now.AddMinutes(randomNumber % 1024));
-        //                break;
-        //            case TypeCode.Decimal:
-        //                p.SetValue(m, (Decimal)((randomNumber * 1.5M + 65535) % Decimal.MaxValue));
-        //                break;
-        //            case TypeCode.Double:
-        //                p.SetValue(m, (Double)((randomNumber * 1.5 + 65535) % Double.MaxValue));
-        //                break;
-        //            case TypeCode.Empty:
-        //                p.SetValue(m, null);
-        //                break;
-        //            case TypeCode.Int16:
-        //                p.SetValue(m, (Int16)((randomNumber * 1.5 + 65535) % Int16.MaxValue));
-        //                break;
-        //            case TypeCode.Int32:
-        //                p.SetValue(m, (Int32)((randomNumber * 1.5 + 65535) % Int32.MaxValue));
-        //                break;
-        //            case TypeCode.Int64:
-        //                p.SetValue(m, (Int64)((randomNumber * 1.5 + 65535) % Int64.MaxValue));
-        //                break;
-        //            case TypeCode.SByte:
-        //                p.SetValue(m, (SByte)((randomNumber * 1.5 + 65535) % SByte.MaxValue));
-        //                break;
-        //            case TypeCode.Single:
-        //                p.SetValue(m, (Single)((randomNumber * 1.5 + 65535) % Single.MaxValue));
-        //                break;
-        //            case TypeCode.String:
-        //                p.SetValue(m, RandomString.Instance.Generate(randomNumber % 30 + 3));
-        //                break;
-        //            case TypeCode.UInt16:
-        //                p.SetValue(m, (UInt16)((randomNumber * 1.5 + 65535) % UInt16.MaxValue));
-        //                break;
-        //            case TypeCode.UInt32:
-        //                p.SetValue(m, (UInt32)((randomNumber * 1.5 + 65535) % UInt32.MaxValue));
-        //                break;
-        //            case TypeCode.UInt64:
-        //                p.SetValue(m, (UInt64)((randomNumber * 1.5 + 65535) % UInt64.MaxValue));
-        //                break;
-        //            default:
-        //                throw new NotSupportedException(pType.FullName);
-        //        }
-        //    }
-        //    return m;
-        //}
+        /// <summary>
+        /// 创建一个指定常用数据类型的随机值。
+        /// </summary>
+        /// <typeparam name="TValue">常用的数据类型。</typeparam>
+        /// <returns>如果返回默认值，表示不支持此类型的随机生成。</returns>
+        public static TValue CreateMockValue<TValue>()
+        {
+            var value = CreateMockValue(typeof(TValue));
+            if(value == null) return default(TValue);
+            return (TValue)value;
+        }
+        /// <summary>
+        /// 创建一个指定常用数据类型的随机值。
+        /// </summary>
+        /// <param name="type">常用的数据类型。</param>
+        /// <returns>如果返回 null 值，表示不支持此类型的随机生成。</returns>
+        public static object CreateMockValue(Type type)
+        {
+            if(type == null) throw new ArgumentNullException("valueType");
 
+            type = type.GetNullableType();
+
+            if(type == Types.Guid) return Guid.NewGuid();
+            var random = FastRandom.Instance;
+
+            if(type.IsEnum)
+            {
+                var values = Enum.GetValues(type);
+                return values.GetValue(random.Next() % values.Length);
+            }
+            if(type == Types.String) random.NextString(random.Next() % 30 + random.Next(3, 6));
+            if(type == Types.Uri) return new Uri("www." + random.NextString(random.Next() % 10 + random.Next(3, 6)) + ".com");
+            if(type == Types.TimeSpan) return TimeSpan.FromMinutes(random.NextDouble() % random.Next(124, 1025));
+            if(type == Types.DateTime) return DateTime.Now.AddMinutes(random.NextDouble() % random.Next(124, 1025));
+            if(type == Types.DateTimeOffset) return DateTimeOffset.Now.AddMinutes(random.NextDouble() % random.Next(124, 1025));
+            if(type == Types.Boolean) return random.NextBool();
+
+            var randomNumber = random.Next(1, 65535) * (random.NextDouble() + 2.0) + 65535;
+            switch(Type.GetTypeCode(type))
+            {
+                case TypeCode.Decimal: return (Decimal)((decimal)randomNumber % Decimal.MaxValue);
+                case TypeCode.Byte: return (Byte)(randomNumber % Byte.MaxValue);
+                case TypeCode.Char: return (Char)(randomNumber % Char.MaxValue);
+                case TypeCode.Double: return (Double)(randomNumber % Double.MaxValue);
+                case TypeCode.Int16: return (Int16)(randomNumber % Int16.MaxValue);
+                case TypeCode.Int32: return (Int32)(randomNumber % Int32.MaxValue);
+                case TypeCode.Int64: return (Int64)(randomNumber % Int64.MaxValue);
+                case TypeCode.SByte: return (SByte)(randomNumber % SByte.MaxValue);
+                case TypeCode.Single: return (Single)(randomNumber % Single.MaxValue);
+                case TypeCode.UInt16: return (UInt16)(randomNumber % UInt16.MaxValue);
+                case TypeCode.UInt32: return (UInt32)(randomNumber % UInt32.MaxValue);
+                case TypeCode.UInt64: return (UInt64)(randomNumber % UInt64.MaxValue);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 创建一个模拟对象。
+        /// </summary>
+        /// <typeparam name="TModel">对象的数据类型。</typeparam>
+        /// <returns>返回要一个模拟的对象。</returns>
+        public static TModel CreateMockModel<TModel>()
+        {
+            var mapper = TypeMapper.Instance<TModel>.Mapper;
+            var m = Activator.CreateInstance<TModel>();
+            foreach(var p in mapper.Properties)
+            {
+                var value = CreateMockValue(p.Property.PropertyType);
+                if(value != null) p.SetValue(m, value);
+            }
+            return m;
+        }
     }
 }

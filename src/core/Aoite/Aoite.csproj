@@ -40,8 +40,13 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\..\comm\keys\aoite.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -56,6 +61,66 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aoite\Data\Attributes\ColumnAttribute.cs" />
+    <Compile Include="Aoite\Data\Attributes\TableAttribute.cs" />
+    <Compile Include="Aoite\Data\Builder\CommandBuilderBase.cs" />
+    <Compile Include="Aoite\Data\Builder\IBuilder.cs" />
+    <Compile Include="Aoite\Data\Builder\ISelect.cs" />
+    <Compile Include="Aoite\Data\Builder\IWhere.cs" />
+    <Compile Include="Aoite\Data\Builder\SelectCommandBuilder.cs" />
+    <Compile Include="Aoite\Data\Builder\WhereCommandBuilder.cs" />
+    <Compile Include="Aoite\Data\Core\BulkCopyArguments.cs" />
+    <Compile Include="Aoite\Data\Core\DefaultParameterSettings.cs" />
+    <Compile Include="Aoite\Data\Core\DynamicEntityValue.cs" />
+    <Compile Include="Aoite\Data\Core\ExecuteAbortException.cs" />
+    <Compile Include="Aoite\Data\Core\ExecuteCommand.cs" />
+    <Compile Include="Aoite\Data\Core\ExecuteType.cs" />
+    <Compile Include="Aoite\Data\Core\Handlers.cs" />
+    <Compile Include="Aoite\Data\Db\Db.cs" />
+    <Compile Include="Aoite\Data\Db\DbContext.cs" />
+    <Compile Include="Aoite\Data\Db\DbEngine.cs" />
+    <Compile Include="Aoite\Data\Db\DbEngineManager.cs" />
+    <Compile Include="Aoite\Data\Db\DbEngineProvider.cs" />
+    <Compile Include="Aoite\Data\Db\Db~Extensions.cs" />
+    <Compile Include="Aoite\Data\Db\IDbEngine.cs" />
+    <Compile Include="Aoite\Data\EventArgs\ExecutedEventArgs.cs" />
+    <Compile Include="Aoite\Data\EventArgs\ExecutingEventArgs.cs" />
+    <Compile Include="Aoite\Data\Executors\DefaultDbExecutor.cs" />
+    <Compile Include="Aoite\Data\Executors\IDbExecutor.cs" />
+    <Compile Include="Aoite\Data\Injectors\DbInjectorBase.cs" />
+    <Compile Include="Aoite\Data\Injectors\IDbInjector.cs" />
+    <Compile Include="Aoite\Data\Injectors\SqlCeDbInjector.cs" />
+    <Compile Include="Aoite\Data\Injectors\SqlDbInjector.cs" />
+    <Compile Include="Aoite\Data\Map\DataReaderToObjectMapper.cs" />
+    <Compile Include="Aoite\Data\Map\DataRowToObjectMapper.cs" />
+    <Compile Include="Aoite\Data\Map\IMapTo`1.cs" />
+    <Compile Include="Aoite\Data\Map\MapperBase`1.cs" />
+    <Compile Include="Aoite\Data\Map\ObjectToRowMapper.cs" />
+    <Compile Include="Aoite\Data\Pagination\Core\IPagination.cs" />
+    <Compile Include="Aoite\Data\Pagination\Core\LimitPagination.cs" />
+    <Compile Include="Aoite\Data\Pagination\Core\Pagination.cs" />
+    <Compile Include="Aoite\Data\Pagination\MsSqlCePagination.cs" />
+    <Compile Include="Aoite\Data\Pagination\MsSqlPagination.cs" />
+    <Compile Include="Aoite\Data\Pagination\OraclePagination.cs" />
+    <Compile Include="Aoite\Data\Pagination\PaginationBase.cs" />
+    <Compile Include="Aoite\Data\Pagination\SQLitePagination.cs" />
+    <Compile Include="Aoite\Data\Pagination\SqlPagination.cs" />
+    <Compile Include="Aoite\Data\Parameters\ExecuteDbParameter.cs" />
+    <Compile Include="Aoite\Data\Parameters\ExecuteParameter.cs" />
+    <Compile Include="Aoite\Data\Parameters\ExecuteParameterCollection.cs" />
+    <Compile Include="Aoite\Data\Parameters\IParameterAdorner.cs" />
+    <Compile Include="Aoite\Data\Profilers\DbProfiler.cs" />
+    <Compile Include="Aoite\Data\Profilers\ProfilerItem.cs" />
+    <Compile Include="Aoite\Data\Results\CanUpdateDbResultBase`1.cs" />
+    <Compile Include="Aoite\Data\Results\DataSetResult`1.cs" />
+    <Compile Include="Aoite\Data\Results\DbResult`1.cs" />
+    <Compile Include="Aoite\Data\Results\ICanUpdateDbResult.cs" />
+    <Compile Include="Aoite\Data\Results\IDbResult.cs" />
+    <Compile Include="Aoite\Data\Results\IDbResult`1.cs" />
+    <Compile Include="Aoite\Data\Results\TableResult.cs" />
+    <Compile Include="Aoite\Data\Test\MsCeTestManager.cs" />
+    <Compile Include="Aoite\Data\Test\MsSqlTestManager.cs" />
+    <Compile Include="Aoite\Data\Test\TestManagerBase.cs" />
     <Compile Include="Aoite\Reflection\Caching\Cache.cs" />
     <Compile Include="Aoite\Reflection\Caching\CacheStrategy.cs" />
     <Compile Include="Aoite\Reflection\Core\Constants.cs" />
@@ -110,6 +175,8 @@
     <Compile Include="Aoite\Reflection\DynamicReflection\DynamicProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\Attributes\AliasAttribute.cs" />
+    <Compile Include="System\Attributes\IAliasAttribute.cs" />
+    <Compile Include="System\Attributes\IKeyAttribute.cs" />
     <Compile Include="System\Collections\Generic\ConsistentHash`1.cs" />
     <Compile Include="System\Core\Ajob.cs" />
     <Compile Include="Aoite\AoiteInfo.cs" />
@@ -139,6 +206,9 @@
     <Compile Include="System\Disposable\IObjectDisposable.cs" />
     <Compile Include="System\Disposable\ObjectDisposableBase.cs" />
     <Compile Include="System\Extensions\CollectionsExtensions.cs" />
+    <Compile Include="System\Extensions\CommonExtensions.cs" />
+    <Compile Include="System\Extensions\DbExtensions.cs" />
+    <Compile Include="System\Extensions\MapperExtensions.cs" />
     <Compile Include="System\Extensions\NetExtensions.cs" />
     <Compile Include="System\Extensions\StringExtensions.cs" />
     <Compile Include="System\Extensions\TypeExtensions.cs" />
@@ -146,7 +216,8 @@
     <Compile Include="System\GA\GA - IO.cs" />
     <Compile Include="System\GA\GA - Net.cs" />
     <Compile Include="System\GA\GA.cs" />
-    <Compile Include="System\Mapping\IDynamicMapper.cs" />
+    <Compile Include="Aoite\Data\Map\IMapTo.cs" />
+    <Compile Include="System\Mapping\IPropertyMapper.cs" />
     <Compile Include="System\Mapping\ITypeMapper.cs" />
     <Compile Include="System\Mapping\PropertyMapper.cs" />
     <Compile Include="System\Mapping\TypeMapper.cs" />
@@ -161,6 +232,7 @@
     <Compile Include="System\Result\ResultStatus.cs" />
     <Compile Include="System\Result\Result`1.cs" />
     <Compile Include="System\Result\SuccessfullyResult.cs" />
+    <Compile Include="System\SqlScriptsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="System\Core\BinaryValue~Implicit.tt">

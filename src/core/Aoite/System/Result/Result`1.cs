@@ -31,11 +31,16 @@ namespace System
         /// 获取一个值，表示结果的返回值。若当前结果包含错误，将会抛出异常。
         /// </summary>
         [System.Xml.Serialization.XmlIgnore]
+        [Ignore]
         public TValue UnsafeValue
         {
             get
             {
-                if(this.IsFailed) throw this.Exception;
+                if(this.IsFailed)
+                {
+                    GA.OnGlobalError(this, this.Exception);
+                    throw this.Exception;
+                }
                 return this._Value;
             }
         }

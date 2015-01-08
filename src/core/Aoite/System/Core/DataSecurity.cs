@@ -42,7 +42,7 @@ namespace System
             }
             using(algorithm)
             {
-                return BitConverter.ToString(algorithm.ComputeHash((encoding ?? Encoding.UTF8).GetBytes(text))).Replace("-", string.Empty);
+                return algorithm.ComputeHash((encoding ?? Encoding.UTF8).GetBytes(text)).ToHexString();
             }
         }
 

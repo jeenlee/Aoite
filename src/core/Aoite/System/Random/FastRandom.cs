@@ -353,15 +353,15 @@ namespace System
         /// </summary>
         UpperCase = 1,
         /// <summary>
-        /// 大写字符。表示 a-z。
+        /// 小写字符。表示 a-z。
         /// </summary>
         LowerCase = 2,
         /// <summary>
-        /// 大写字符。表示 0-9。
+        /// 数字字符。表示 0-9。
         /// </summary>
         Numeric = 4,
         /// <summary>
-        /// 大写字符。表示“,.;:?!/@#$%^&amp;()=+*-_{}[]&lt;&gt;>|~”之一。
+        /// 特殊字符。表示“,.;:?!/@#$%^&amp;()=+*-_{}[]&lt;&gt;>|~”之一。
         /// </summary>
         Special = 8
     }

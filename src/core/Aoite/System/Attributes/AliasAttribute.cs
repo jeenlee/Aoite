@@ -4,7 +4,7 @@
     /// 表示一个具有别名的特性。
     /// </summary>
     [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
-    public class AliasAttribute : Attribute
+    public class AliasAttribute : Attribute, IAliasAttribute
     {
         private string _Name;
         /// <summary>

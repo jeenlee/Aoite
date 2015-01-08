@@ -33,18 +33,20 @@ namespace System
 
             if(!char.IsUpper(s[0])) return s;
 
-            string camelCase = char.ToLower(s[0], CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
-            if(s.Length > 1) camelCase += s.Substring(1);
-            return camelCase;
+            var c = char.ToLower(s[0], CultureInfo.InvariantCulture).ToString();
+            if(s.Length > 1) return c + s.Substring(1);
+            return c;
         }
+
         /// <summary>
-        /// 将当前字符串转换为 UTF8 的字节组。
+        /// 将当前字符串转换为指定编码的的字节组。
         /// </summary>
         /// <param name="value">当前字符串。</param>
+        /// <param name="encoding">编码。为 null 值表示 UTF8 的编码。</param>
         /// <returns>返回一个字节组。</returns>
-        public static byte[] ToUtf8Bytes(this string value)
+        public static byte[] ToBytes(this string value, Encoding encoding = null)
         {
-            return Encoding.UTF8.GetBytes(value);
+            return (encoding ?? Encoding.UTF8).GetBytes(value);
         }
 
         /// <summary>
@@ -155,12 +157,13 @@ namespace System
         public static string CutString(this string input, int maxLength, string ellipsis = "...")
         {
             if(input == null || input.Length <= maxLength) return input;
+            if(string.IsNullOrEmpty(ellipsis)) throw new ArgumentNullException("ellipsis");
             maxLength = maxLength - ellipsis.Length;
             return input.Substring(0, maxLength) + ellipsis;
         }
 
         /// <summary>
-        /// 获取字符串开头的内容。
+        /// 截取字符串开头的内容。
         /// </summary>
         /// <param name="input">一个字符串。</param>
         /// <param name="length">获取的字符串长度。</param>
@@ -172,7 +175,7 @@ namespace System
         }
 
         /// <summary>
-        /// 获取字符串结尾的内容。
+        /// 截取字符串结尾的内容。
         /// </summary>
         /// <param name="input">一个字符串。</param>
         /// <param name="length">获取的字符串长度。</param>
@@ -182,26 +185,44 @@ namespace System
             if(string.IsNullOrEmpty(input)) return string.Empty;
             return length >= input.Length ? input : input.Substring(input.Length - length);
         }
-
+        
         /// <summary>
         /// 删除当前字符串的开头的字符串。
         /// </summary>
         /// <param name="val">目标字符串。</param>
         /// <param name="count">要删除的字长度。</param>
         /// <returns>返回删除后的字符串。</returns>
-        public static string RemoveStart(this string val, int count = 1)
+        [Obsolete("请调用 RemoveStarts。后期将会移除此方法。")]
+        [System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)]
+        public static string RemoveStart(this string val, int count = 1) { return RemoveStarts(val, count); }
+        /// <summary>
+        /// 删除当前字符串的开头的字符串。
+        /// </summary>
+        /// <param name="val">目标字符串。</param>
+        /// <param name="count">要删除的字长度。</param>
+        /// <returns>返回删除后的字符串。</returns>
+        public static string RemoveStarts(this string val, int count = 1)
         {
             if(string.IsNullOrEmpty(val) || val.Length < count) return val;
             return val.Remove(0, count);
         }
-
+        
         /// <summary>
         /// 删除当前字符串的结尾的字符串。
         /// </summary>
         /// <param name="val">目标字符串。</param>
         /// <param name="count">要删除的字长度。</param>
         /// <returns>返回删除后的字符串。</returns>
-        public static string RemoveEnd(this string val, int count = 1)
+        [Obsolete("请调用 RemoveEnds。后期将会移除此方法。")]
+        [System.ComponentModel.EditorBrowsable(ComponentModel.EditorBrowsableState.Never)]
+        public static string RemoveEnd(this string val, int count = 1) { return RemoveEnds(val, count); }
+        /// <summary>
+        /// 删除当前字符串的结尾的字符串。
+        /// </summary>
+        /// <param name="val">目标字符串。</param>
+        /// <param name="count">要删除的字长度。</param>
+        /// <returns>返回删除后的字符串。</returns>
+        public static string RemoveEnds(this string val, int count = 1)
         {
             if(string.IsNullOrEmpty(val) || val.Length < count) return val;
             return val.Remove(val.Length - count);

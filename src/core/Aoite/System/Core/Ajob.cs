@@ -152,6 +152,7 @@ namespace System
         {
             return Once(job, TimeSpan.FromMilliseconds(milliseconds), state);
         }
+
         /// <summary>
         /// 指定间隔时间执行一次 <paramref name="job"/>。
         /// </summary>
@@ -175,6 +176,7 @@ namespace System
         {
             return Loop(job, TimeSpan.FromMilliseconds(milliseconds), state);
         }
+
         /// <summary>
         /// 指定间隔时间重复执行 <paramref name="job"/>。
         /// </summary>

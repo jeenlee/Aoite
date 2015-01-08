@@ -37,5 +37,16 @@
         /// </summary>
         /// <param name="message">错误的描述。</param>
         public ExceptionEventArgs(string message) : this(new Exception(message)) { }
+
+        /// <summary>
+        /// 创建并返回当前异常的字符串表示形式。
+        /// </summary>
+        /// <returns>当前异常的字符串表示形式。</returns>
+        public override string ToString()
+        {
+            if(this.Exception == null)
+                return base.ToString();
+            return this.Exception.ToString();
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace System
     {
         #region 框架类型
 
-        //TODO 未完成。需要完成 Aoite.Data 模块
+        //TODO：未完成。需要完成 Aoite.Data 模块
         ///// <summary>
         ///// 表示 <see cref="Aoite.Data.DbEngineManager"/> 的类型。
         ///// </summary>

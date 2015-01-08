@@ -5,7 +5,7 @@ using System.Text;
 
 namespace System
 {
-    //TODO: 未完成。需要完成 EntityMapper、QuicklySerializer 模块
+    //TODO：未完成。需要完成 EntityMapper、QuicklySerializer 模块
     /// <summary>
     /// 表示一个二进制的值。
     /// </summary>

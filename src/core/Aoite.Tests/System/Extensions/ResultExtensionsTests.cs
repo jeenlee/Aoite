@@ -15,6 +15,27 @@ namespace System
         }
 
         [Fact()]
+        public void ThrowIfFaildedTest1()
+        {
+            Assert.Throws<ResultException>(() => ResultExtensions.ThrowIfFailded(new Result("Error")));
+        }
+
+        [Fact()]
+        public void ThrowIfFaildedTest2()
+        {
+            Exception exception = null;
+            try
+            {
+                int a = 1, b = 0, c = a / b;
+            }
+            catch(DivideByZeroException ex)
+            {
+                exception = ex;
+            }
+            Assert.Throws<DivideByZeroException>(() => ResultExtensions.ThrowIfFailded(new Result(exception)));
+        }
+
+        [Fact()]
         public void ToFaildedT_Exception_Int32()
         {
             Assert.Throws<ArgumentNullException>(() => ResultExtensions.ToFailded((Result)null, new Exception()));
@@ -25,7 +46,6 @@ namespace System
         {
             Assert.Throws<ArgumentNullException>(() => ResultExtensions.ToFailded((Result)null, ""));
         }
-
         [Fact()]
         public void ToSuccessedT()
         {

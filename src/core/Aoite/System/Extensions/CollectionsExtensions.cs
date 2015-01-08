@@ -19,7 +19,7 @@ namespace System.Collections.Generic
         /// <param name="collection">集合。</param>
         /// <param name="totalCount">数据的总行数。</param>
         /// <returns>返回一个实体的数据集合。。</returns>
-        public static GridData ToGrid<TEntity>(this IEnumerable<TEntity> collection, long totalCount = 0)
+        public static GridData<TEntity> ToGrid<TEntity>(this IEnumerable<TEntity> collection, long totalCount = 0)
         {
             if(collection == null) throw new ArgumentNullException("collection");
             return new GridData<TEntity>() { Rows = collection.ToArray(), Total = totalCount };
@@ -61,6 +61,7 @@ namespace System.Collections.Generic
         /// <returns>如果字典包含具有指定键的元素则返回对应的值，否则返回默认值。</returns>
         public static TValue TryGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
         {
+            if(dict == null) throw new ArgumentNullException("dict");
             TValue value;
             if(dict.TryGetValue(key, out value)) return value;
             return default(TValue);
@@ -81,6 +82,7 @@ namespace System.Collections.Generic
             if(length > 1024) memcmp(b1, b2, length);
             return EqualsBytesShort(b1, b2);
         }
+
         static unsafe bool EqualsBytesShort(byte[] b1, byte[] b2)
         {
             fixed(byte* p1 = b1, p2 = b2)
@@ -99,45 +101,18 @@ namespace System.Collections.Generic
         static extern int memcmp(byte[] b1, byte[] b2, long count);
 
         /// <summary>
-        /// 合并两个集合，并返回一个新的集合。
-        /// </summary>
-        /// <typeparam name="T1">第一个集合的类型。</typeparam>
-        /// <typeparam name="T2">第二个集合的类型。</typeparam>
-        /// <param name="e1">连接的集合。</param>
-        /// <param name="e2">另外一个连接的集合。</param>
-        /// <returns>返回一个新的、包含两个集合数据的集合。</returns>
-        public static IEnumerable<T2> ConcatTo<T1, T2>(this IEnumerable<T2> e1, IEnumerable<T1> e2)
-            where T1 : T2
-        {
-            foreach(var item in e1) yield return item;
-            foreach(var item in e2) yield return item;
-        }
-
-        /// <summary>
-        /// 将指定 <typeparamref name="T1"/> 转换为 <typeparamref name="T2"/> 的类型。
-        /// </summary>
-        /// <typeparam name="T1">源类型。</typeparam>
-        /// <typeparam name="T2">转换后的类型。</typeparam>
-        /// <param name="e">等待转换的集合。</param>
-        /// <returns>返回一个新的集合。</returns>
-        public static IEnumerable<T2> ConvertAllTo<T1, T2>(this IEnumerable<T1> e)
-            where T1 : T2
-        {
-            foreach(var item in e) yield return item;
-        }
-
-        /// <summary>
         /// 随机取出指定枚举的一部分元素。
         /// </summary>
         /// <param name="e">枚举。</param>
         /// <param name="max">固定枚举元素数，为 0 则随机。</param>
-        public static IEnumerable<T> Random<T>(this IEnumerable<T> e, int max = 0)
+        public static IEnumerable<T> RandomAny<T>(this IEnumerable<T> e, int max = 0)
         {
             if(e == null) throw new ArgumentNullException("e");
 
             long tick = DateTime.Now.Ticks;
             List<T> list = new List<T>(e);
             if(max < 1) max = FastRandom.Instance.Next(1, list.Count);
+            if(max > list.Count) throw new ArgumentOutOfRangeException("max");
 
             for(int i = 0; i < max; i++)
             {
@@ -155,7 +130,7 @@ namespace System.Collections.Generic
         public static T RandomOne<T>(this IEnumerable<T> e)
         {
             if(e == null) throw new ArgumentNullException("e");
-            return Random(e, 1).First();
+            return RandomAny(e, 1).First();
         }
 
         /// <summary>
@@ -170,14 +145,16 @@ namespace System.Collections.Generic
         /// <returns>拼接后的字符串。</returns>
         public static string Join<T>(this IEnumerable<T> items, Func<T, string> callback, string separator = ",", string start = null, string end = null)
         {
-            System.Text.StringBuilder builder = new Text.StringBuilder();
+            Text.StringBuilder builder = new Text.StringBuilder();
             foreach(var item in items)
             {
                 if(builder.Length > 0) builder.Append(separator);
                 builder.Append(callback(item));
             }
             if(builder.Length == 0) return string.Empty;
-            return start + builder.ToString() + end;
+            if(start != null) builder.Insert(0, start);
+            if(end != null) builder.Append(end);
+            return builder.ToString();
         }
 
         /// <summary>
