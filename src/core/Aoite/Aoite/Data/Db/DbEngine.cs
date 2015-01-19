@@ -10,6 +10,7 @@ namespace Aoite.Data
     /// <summary>
     /// 表示一个数据源查询与交互引擎。
     /// </summary>
+    [System.Diagnostics.DebuggerDisplay("{ConnectionString}")]
     public partial class DbEngine : IDbEngine
     {
         /// <summary>
@@ -34,39 +35,35 @@ namespace Aoite.Data
         /// </summary>
         public bool IsReadonly { get; set; }
 
-        private readonly System.Threading.ThreadLocal<DbContext> _contenxt = new System.Threading.ThreadLocal<DbContext>();
+        private readonly System.Threading.ThreadLocal<DbContext> _threadLocalContent = new System.Threading.ThreadLocal<DbContext>();
         internal void ResetContext()
         {
-            lock(this._contenxt)
-            {
-                this._contenxt.Value = null;
-            }
+            this._threadLocalContent.Value = null;
         }
         /// <summary>
         /// 获取一个值，指示当前上下文在线程中是否已创建。
         /// </summary>
-        public bool IsThreadContext { get { return this._contenxt.Value != null; } }
+        public bool IsThreadContext { get { return this._threadLocalContent.Value != null; } }
 
         /// <summary>
         /// 创建并返回一个 <see cref="Aoite.Data.DbContext"/>。返回当前线程上下文包含的 <see cref="Aoite.Data.DbContext"/> 或创建一个新的  <see cref="Aoite.Data.DbContext"/>。
-        /// <para>当释放一个 <see cref="Aoite.Data.DbContext"/> 后，将会重新创建。</para>
+        /// <para>当释放一个 <see cref="Aoite.Data.DbContext"/> 后，下一次调用获取将会重新创建上下文。</para>
         /// </summary>
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         public virtual DbContext Context
         {
             get
             {
-                lock(this._contenxt)
-                {
-                    if(this._contenxt.Value == null) this._contenxt.Value = new DbContext(this);
-                    return this._contenxt.Value;
-                }
+                if(this._threadLocalContent.Value == null) this._threadLocalContent.Value = new DbContext(this);
+                return this._threadLocalContent.Value;
             }
         }
 
         /// <summary>
         /// 创建并返回一个事务性 <see cref="Aoite.Data.DbContext"/>。返回当前线程上下文包含的 <see cref="Aoite.Data.DbContext"/> 或创建一个新的  <see cref="Aoite.Data.DbContext"/>。
-        /// <para>当释放一个 <see cref="Aoite.Data.DbContext"/> 后，将会重新创建。</para>
+        /// <para>当释放一个 <see cref="Aoite.Data.DbContext"/> 后，下一次调用获取将会重新创建上下文。</para>
         /// </summary>
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         public virtual DbContext ContextTransaction { get { return this.Context.OpenTransaction(); } }
 
         /// <summary>

@@ -17,17 +17,29 @@ namespace System
     public interface IAsyncJob
     {
         /// <summary>
-        /// 获取或设置自定义数据。
+        /// 获取自定义数据。
         /// </summary>
-        object State { get; set; }
+        object State { get; }
         /// <summary>
         /// 获取关联的异步操作。
         /// </summary>
         System.Threading.Tasks.Task Task { get; }
         /// <summary>
-        /// 获取此任务的状态。
+        /// 获取一个值，指示任务是否已取消。
         /// </summary>
-        System.Threading.Tasks.TaskStatus Status { get; }
+        bool IsCanceled { get; }
+        /// <summary>
+        /// 获取一个值，指示任务是否发生异常。
+        /// </summary>
+        bool IsFaulted { get; }
+        /// <summary>
+        /// 获取一个值，指示任务是否已成功完成。
+        /// </summary>
+        bool IsSuccessed { get; }
+        /// <summary>
+        /// 获取一个值，指示任务是否正在进行。
+        /// </summary>
+        bool IsRunning { get; }
         /// <summary>
         /// 立即取消异步任务。
         /// </summary>
@@ -44,5 +56,10 @@ namespace System
         /// </summary>
         /// <param name="millisecondsDelay">等待延迟的毫秒数。</param>
         void Delay(int millisecondsDelay);
+        /// <summary>
+        /// 延迟时间执行任务。
+        /// </summary>
+        /// <param name="timeSpanDelay">等待延迟的间隔。</param>
+        void Delay(TimeSpan timeSpanDelay);
     }
 }

@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
-using System.Web;
 
 namespace System
 {
@@ -17,6 +16,11 @@ namespace System
     /// </summary>
     public static partial class GA
     {
+        /// <summary>
+        /// 提供 Unicode 字节顺序标记的 UTF-8 编码。
+        /// </summary>
+        public readonly static Encoding UTF8 = new UTF8Encoding(false);
+
         /// <summary>
         /// 获取应用程序当前的操作系统主版本是否少于 6（XP/2003 含以下的操作系统）。
         /// </summary>
@@ -34,11 +38,16 @@ namespace System
         /// </summary>
         public static event ExceptionEventHandler GlobalError;
 
-        internal static void OnGlobalError(object sender, Exception exception)
+        /// <summary>
+        /// 当要求抛出错误时的全局事件委托。
+        /// </summary>
+        /// <param name="sender">事件的对象。允许为 null 值。</param>
+        /// <param name="exception">抛出的异常。不允许为 null 值。</param>
+        public static void OnGlobalError(object sender, Exception exception)
         {
-            System.Diagnostics.Trace.Assert(sender != null);
-            System.Diagnostics.Trace.Assert(exception != null);
+            if(exception == null) throw new ArgumentNullException("exception");
             System.Diagnostics.Trace.TraceError(exception.ToString());
+
             var handler = GlobalError;
             if(handler != null) handler(sender, new ExceptionEventArgs(exception));
         }
@@ -53,6 +62,29 @@ namespace System
                                   || fn.iStartsWith("xunit")
                                   || fn.iStartsWith("nuint")
                                   select true).FirstOrDefault();
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if(e.ExceptionObject is Exception)
+            {
+                GA.OnGlobalError(sender, e.ExceptionObject as Exception);
+            }
+            else
+            {
+                WriteUnhandledException("应用崩溃了：{0}", e.ExceptionObject);
+            }
+        }
+        /// <summary>
+        /// 写入未捕获的异常。该异常不记录到日志管理器，而是独立出一个 LogError{yyyy-MM-dd}.txt 文件。
+        /// </summary>
+        /// <param name="message">复合格式的错误消息。</param>
+        /// <param name="args">一个对象数组，其中包含零个或多个要设置格式的对象。</param>
+        public static void WriteUnhandledException(string message, params object[] args)
+        {
+            var path = GA.IsWebRuntime ? System.Web.Webx.MapUrl("~/LogError" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt") : GA.FullPath("LogError" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt");
+            System.IO.File.AppendAllText(path, DateTime.Now + " " + string.Format(message, args));
         }
 
         [DllImport("rpcrt4.dll", SetLastError = true)]
@@ -67,7 +99,7 @@ namespace System
             const int RPC_S_OK = 0;
             Guid guid;
             int result = UuidCreateSequential(out guid);
-            if(result == RPC_S_OK)  return guid;
+            if(result == RPC_S_OK) return guid;
             else
                 return Guid.NewGuid();
         }
@@ -164,19 +196,27 @@ namespace System
             if(Path.IsPathRooted(path)) return path;
             return Path.Combine(AppDirectory, path);
         }
-
         /// <summary>
-        /// 返回一个包含内容 URL 的字符串。
+        /// 获取指定路径的完整路径。
         /// </summary>
-        /// <param name="contentPath">内容路径。</param>
-        /// <returns>一个包含内容 URL 的字符串。</returns>
-        public static string MapUrl(string contentPath)
+        /// <param name="paths">绝对路径或相对路径数组。</param>
+        /// <returns>基于当前应用程序目录的绝对路径。</returns>
+        public static string FullPath(params string[] paths)
         {
-            if(string.IsNullOrEmpty(contentPath)) throw new ArgumentNullException("contentPath");
-            return VirtualPathUtility.Combine(HttpRuntime.AppDomainAppVirtualPath
-                , VirtualPathUtility.ToAbsolute(contentPath, HttpRuntime.AppDomainAppVirtualPath));
+            if(paths == null || paths.Length == 0) throw new ArgumentNullException("paths");
+            if(paths.Length == 1)
+            {
+                return FullPath(paths[0]);
+            }
+            else
+            {
+                if(Path.IsPathRooted(paths[0]))  return Path.Combine(paths);
+                string[] newPaths = new string[paths.Length + 1];
+                newPaths[0] = AppDirectory;
+                Array.Copy(paths, 0, newPaths, 1, paths.Length);
+                return Path.Combine(newPaths);
+            }
         }
-
         /// <summary>
         /// 使用指定的对象数组和格式设置信息向 <see cref="System.Diagnostics.Trace.Listeners"/> 集合中的跟踪侦听器中写入错误消息。
         /// </summary>
@@ -250,62 +290,62 @@ namespace System
 
         #region Compare
 
-        //private static CompareResult Compare(string name, Type type, object t1, object t2)
-        //{
-        //    type = type.GetNullableType();
-        //    switch(Type.GetTypeCode(type))
-        //    {
-        //        case TypeCode.Object:
-        //            if(t1 == null || t2 == null) goto default;
-        //            if(type.IsSubclassOf(Types.Exception) || type == Types.Exception)
-        //            {
-        //                t1 = t1.ToString();
-        //                t2 = t2.ToString();
-        //                goto default;
-        //            }
-        //            var mp = Aoite.Data.EntityMapper.Create(type);
-        //            foreach(var p in mp.Properties)
-        //            {
-        //                try
-        //                {
-        //                    var v1 = p.GetValue(t1);
-        //                    var v2 = p.GetValue(t2);
-        //                    var r = Compare(p.Property.Name, p.Property.PropertyType, v1, v2);
-        //                    if(r != null) return null;
-        //                }
-        //                catch(Exception)
-        //                {
-        //                    throw;
-        //                }
-        //            }
-        //            break;
-        //        default:
-        //            if(!object.Equals(t1, t2))
-        //            {
-        //                return new CompareResult()
-        //                {
-        //                    Name = name,
-        //                    Value1 = t1,
-        //                    Value2 = t2
-        //                };
-        //            }
-        //            break;
-        //    }
-        //    return null;
-        //}
+        private static CompareResult Compare(string name, Type type, object t1, object t2)
+        {
+            type = type.GetNullableType();
+            switch(Type.GetTypeCode(type))
+            {
+                case TypeCode.Object:
+                    if(t1 == null || t2 == null) goto default;
+                    if(type.IsSubclassOf(Types.Exception) || type == Types.Exception)
+                    {
+                        t1 = t1.ToString();
+                        t2 = t2.ToString();
+                        goto default;
+                    }
+                    var mp = TypeMapper.Create(type);
+                    foreach(var p in mp.Properties)
+                    {
+                        try
+                        {
+                            var v1 = p.GetValue(t1);
+                            var v2 = p.GetValue(t2);
+                            var r = Compare(p.Property.Name, p.Property.PropertyType, v1, v2);
+                            if(r != null) return null;
+                        }
+                        catch(Exception)
+                        {
+                            throw;
+                        }
+                    }
+                    break;
+                default:
+                    if(!object.Equals(t1, t2))
+                    {
+                        return new CompareResult()
+                        {
+                            Name = name,
+                            Value1 = t1,
+                            Value2 = t2
+                        };
+                    }
+                    break;
+            }
+            return null;
+        }
 
-        ///// <summary>
-        ///// 深度比较两个对象。
-        ///// </summary>
-        ///// <typeparam name="T">对象的数据类型。</typeparam>
-        ///// <param name="t1">第一个对象的实例。</param>
-        ///// <param name="t2">第二个对象的实例。</param>
-        ///// <returns></returns>
-        //public static CompareResult Compare<T>(this T t1, T t2) where T : class
-        //{
-        //    var type = typeof(T);
-        //    return Compare(type.Name, type, t1, t2);
-        //}
+        /// <summary>
+        /// 深度比较两个对象。
+        /// </summary>
+        /// <typeparam name="T">对象的数据类型。</typeparam>
+        /// <param name="t1">第一个对象的实例。</param>
+        /// <param name="t2">第二个对象的实例。</param>
+        /// <returns>返回两个对象的比较结果。</returns>
+        public static CompareResult Compare<T>(this T t1, T t2) where T : class
+        {
+            var type = typeof(T);
+            return Compare(type.Name, type, t1, t2);
+        }
 
         #endregion
 
@@ -352,6 +392,7 @@ namespace System
             if(value == null) return default(TValue);
             return (TValue)value;
         }
+
         /// <summary>
         /// 创建一个指定常用数据类型的随机值。
         /// </summary>

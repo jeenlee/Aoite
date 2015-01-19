@@ -107,7 +107,7 @@ namespace Aoite.Data
         /// <typeparam name="TDbResult">返回结果的数据类型。</typeparam>
         /// <typeparam name="TDbValue">返回值的数据类型。</typeparam>
         /// <param name="type">执行的类型。</param>
-        /// <param name="callback">执行时的回调函数。</param>
+        /// <param name="callback">执行时的回调方法。</param>
         /// <returns>返回一个执行结果。</returns>
         protected virtual TDbResult Execute<TDbResult, TDbValue>(ExecuteType type, Func<DbCommand, TDbValue> callback)
             where TDbResult : DbResult<TDbValue>, new()

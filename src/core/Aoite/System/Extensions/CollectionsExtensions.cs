@@ -138,7 +138,7 @@ namespace System.Collections.Generic
         /// </summary>
         /// <typeparam name="T">数据类型。</typeparam>
         /// <param name="items">原集合。</param>
-        /// <param name="callback">回调函数。</param>
+        /// <param name="callback">回调方法。</param>
         /// <param name="separator">分隔符。</param>
         /// <param name="start">起始文本。如果集合为空，不包含此数据。</param>
         /// <param name="end">结尾文本。如果集合为空，不包含此数据。</param>

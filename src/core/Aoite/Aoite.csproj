@@ -54,6 +54,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -121,6 +122,72 @@
     <Compile Include="Aoite\Data\Test\MsCeTestManager.cs" />
     <Compile Include="Aoite\Data\Test\MsSqlTestManager.cs" />
     <Compile Include="Aoite\Data\Test\TestManagerBase.cs" />
+    <Compile Include="Aoite\LevelDB\CompressionLevel.cs" />
+    <Compile Include="Aoite\LevelDB\Iterator.cs" />
+    <Compile Include="Aoite\LevelDB\LDB.cs" />
+    <Compile Include="Aoite\LevelDB\LevelDBException.cs" />
+    <Compile Include="Aoite\LevelDB\LevelDBHandle.cs" />
+    <Compile Include="Aoite\LevelDB\LevelDBInterop.cs" />
+    <Compile Include="Aoite\LevelDB\Obsolete\Cache.cs" />
+    <Compile Include="Aoite\LevelDB\Obsolete\Comparator.cs" />
+    <Compile Include="Aoite\LevelDB\Obsolete\Env.cs" />
+    <Compile Include="Aoite\LevelDB\Obsolete\WriteOptions.cs" />
+    <Compile Include="Aoite\LevelDB\Options.cs" />
+    <Compile Include="Aoite\LevelDB\ReadOptions.cs" />
+    <Compile Include="Aoite\LevelDB\Snapshot.cs" />
+    <Compile Include="Aoite\LevelDB\WriteBatch.cs" />
+    <Compile Include="Aoite\Logger\Core\LogType.cs" />
+    <Compile Include="Aoite\Logger\Text\CustomTextWriterFactory.cs" />
+    <Compile Include="Aoite\Logger\Text\LogPathFactories.cs" />
+    <Compile Include="Aoite\Logger\Text\ILogDescriptor.cs" />
+    <Compile Include="Aoite\Logger\Core\ILogger.cs" />
+    <Compile Include="Aoite\Logger\Text\ILogPathFactory.cs" />
+    <Compile Include="Aoite\Logger\Text\ITextWriterFactory.cs" />
+    <Compile Include="Aoite\Logger\Core\LoggerBase.cs" />
+    <Compile Include="Aoite\Logger\Core\LogItem.cs" />
+    <Compile Include="Aoite\Logger\Text\TextLogger.cs" />
+    <Compile Include="Aoite\Logger\Text\StreamTextWriterFactory.cs" />
+    <Compile Include="Aoite\Net\Core\IHostPort.cs" />
+    <Compile Include="Aoite\Net\Core\SocketInfo.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisArgs.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisArray.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisBoolean.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisValue.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisCommand.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisCommand`1.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisDate.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisFloat.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisInteger.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisKeyType.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisStatus.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisString.cs" />
+    <Compile Include="Aoite\Redis\Commands\RedisItem.cs" />
+    <Compile Include="Aoite\Redis\Core\IConnector.cs" />
+    <Compile Include="Aoite\Redis\Extensions\RedisHyperLogLogExtensions.cs" />
+    <Compile Include="Aoite\Redis\Extensions\RedisSortedSetExtensions.cs" />
+    <Compile Include="Aoite\Redis\Extensions\RedisTransactionExtensions.cs" />
+    <Compile Include="Aoite\Redis\Models\IRedisItem.cs" />
+    <Compile Include="Aoite\Redis\Core\MockConnector.cs" />
+    <Compile Include="Aoite\Redis\Models\RedisFieldItem.cs" />
+    <Compile Include="Aoite\Redis\Models\RedisScoreItem.cs" />
+    <Compile Include="Aoite\Redis\Extensions\Enums.cs" />
+    <Compile Include="Aoite\Redis\Extensions\RedisHashExtensions.cs" />
+    <Compile Include="Aoite\Redis\Extensions\RedisKeyExtensions.cs" />
+    <Compile Include="Aoite\Redis\Extensions\RedisListExtensions.cs" />
+    <Compile Include="Aoite\Redis\Extensions\RedisServerExtensions.cs" />
+    <Compile Include="Aoite\Redis\Extensions\RedisSetExtensions.cs" />
+    <Compile Include="Aoite\Redis\Extensions\RedisStringExtensions.cs" />
+    <Compile Include="Aoite\Redis\Core\RedisConnector.cs" />
+    <Compile Include="Aoite\Redis\Core\RedisReplyType.cs" />
+    <Compile Include="Aoite\Redis\Core\RedisExecutor.cs" />
+    <Compile Include="Aoite\Redis\IRedisClient.cs" />
+    <Compile Include="Aoite\Redis\Models\RedisWeightDictionary.cs" />
+    <Compile Include="Aoite\Redis\RedisClient.cs" />
+    <Compile Include="Aoite\Redis\Models\RedisDictionary.cs" />
+    <Compile Include="Aoite\Redis\Core\Exceptions.cs" />
+    <Compile Include="Aoite\Redis\Models\RedisKeyItem.cs" />
+    <Compile Include="Aoite\Redis\Core\RedisScan`1.cs" />
+    <Compile Include="Aoite\Redis\Core\RedisType.cs" />
     <Compile Include="Aoite\Reflection\Caching\Cache.cs" />
     <Compile Include="Aoite\Reflection\Caching\CacheStrategy.cs" />
     <Compile Include="Aoite\Reflection\Core\Constants.cs" />
@@ -173,6 +240,26 @@
     <Compile Include="Aoite\Reflection\Extensions\Services\TryCreateInstanceExtensions.cs" />
     <Compile Include="Aoite\Reflection\Extensions\Services\TryInvokeWithValuesExtensions.cs" />
     <Compile Include="Aoite\Reflection\DynamicReflection\DynamicProperty.cs" />
+    <Compile Include="Aoite\Serialization\BinarySerializer.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Core\AssemblyInfo.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Core\AssemblyInfoCollection.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Core\ObjectFormatterBase.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Core\SerializableFieldInfo.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Core\SerializationHelper.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Core\TypeByteLength.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Formatters\BasisFormatters.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Formatters\Formatters.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Formatters\FormatterTag.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Formatters\NumberFormatters~Decimals.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Formatters\NumberFormatters~Integers.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Formatters\ObjectFormatters.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\Formatters\StringFormatters.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\ObjectReader.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\ObjectWriter.cs" />
+    <Compile Include="Aoite\Serialization\JsonSerializer.cs" />
+    <Compile Include="Aoite\Serialization\QuicklySerializer.cs" />
+    <Compile Include="Aoite\Serialization\SerializerBase.cs" />
+    <Compile Include="Aoite\Serialization\XmlSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="System\Attributes\AliasAttribute.cs" />
     <Compile Include="System\Attributes\IAliasAttribute.cs" />
@@ -194,6 +281,7 @@
     <Compile Include="System\Core\DataSecurity.cs" />
     <Compile Include="System\Core\GridData.cs" />
     <Compile Include="System\Core\HeadersBase.cs" />
+    <Compile Include="System\Core\Log.cs" />
     <Compile Include="System\Core\ValidCodeGenerator.cs" />
     <Compile Include="System\Core\Isolated`1.cs" />
     <Compile Include="System\Core\Mean`1.cs" />
@@ -208,15 +296,34 @@
     <Compile Include="System\Extensions\CollectionsExtensions.cs" />
     <Compile Include="System\Extensions\CommonExtensions.cs" />
     <Compile Include="System\Extensions\DbExtensions.cs" />
+    <Compile Include="System\Extensions\IocExtensions.cs" />
+    <Compile Include="System\Extensions\IOExtensions.cs" />
     <Compile Include="System\Extensions\MapperExtensions.cs" />
     <Compile Include="System\Extensions\NetExtensions.cs" />
     <Compile Include="System\Extensions\StringExtensions.cs" />
     <Compile Include="System\Extensions\TypeExtensions.cs" />
+    <Compile Include="System\Extensions\WebExtensions.cs" />
     <Compile Include="System\GA\CompareResult.cs" />
-    <Compile Include="System\GA\GA - IO.cs" />
-    <Compile Include="System\GA\GA - Net.cs" />
+    <Compile Include="System\GA\GA.IO.cs" />
+    <Compile Include="System\GA\GA.Net.cs" />
     <Compile Include="System\GA\GA.cs" />
     <Compile Include="Aoite\Data\Map\IMapTo.cs" />
+    <Compile Include="System\Ioc\DefaultMapFilter.cs" />
+    <Compile Include="System\Ioc\IContainerProvider.cs" />
+    <Compile Include="System\Ioc\IIocContainer.cs" />
+    <Compile Include="System\Ioc\IMapFilter.cs" />
+    <Compile Include="System\Ioc\IocContainer.cs" />
+    <Compile Include="System\Ioc\IocContainer~Fields.cs" />
+    <Compile Include="System\Ioc\IocContainer~Nested.cs" />
+    <Compile Include="System\Ioc\IocContainer~Private.cs" />
+    <Compile Include="System\Ioc\LastMappingAttribute.cs" />
+    <Compile Include="System\Ioc\MapResolveEventArgs.cs" />
+    <Compile Include="System\Ioc\DefaultMappingAttribute.cs" />
+    <Compile Include="System\Ioc\NamesapceRule.cs" />
+    <Compile Include="System\Ioc\NamesapceRuleMode.cs" />
+    <Compile Include="System\Ioc\ObjectFactory.cs" />
+    <Compile Include="System\Ioc\Object`1.cs" />
+    <Compile Include="System\Ioc\SingletonMappingAttribute.cs" />
     <Compile Include="System\Mapping\IPropertyMapper.cs" />
     <Compile Include="System\Mapping\ITypeMapper.cs" />
     <Compile Include="System\Mapping\PropertyMapper.cs" />
@@ -232,7 +339,8 @@
     <Compile Include="System\Result\ResultStatus.cs" />
     <Compile Include="System\Result\Result`1.cs" />
     <Compile Include="System\Result\SuccessfullyResult.cs" />
-    <Compile Include="System\SqlScriptsManager.cs" />
+    <Compile Include="Aoite\Data\Test\SqlScriptsManager.cs" />
+    <Compile Include="System\Web\Webx.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="System\Core\BinaryValue~Implicit.tt">
@@ -244,10 +352,14 @@
     <None Include="..\..\..\comm\keys\aoite.snk">
       <Link>aoite.snk</Link>
     </None>
+    <EmbeddedResource Include="Aoite\LevelDB\Interop\LevelDBx32.gz" />
+    <EmbeddedResource Include="Aoite\LevelDB\Interop\LevelDBx64.gz" />
+    <None Include="Aoite\Redis\ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

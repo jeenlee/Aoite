@@ -83,9 +83,9 @@ namespace System
         }
 
         /// <summary>
-        /// 执行一个孤立的回调函数。
+        /// 执行一个孤立的回调方法。
         /// </summary>
-        /// <param name="callback">回调函数。</param>
+        /// <param name="callback">回调方法。</param>
         public void Callback(Action callback)
         {
             callback();

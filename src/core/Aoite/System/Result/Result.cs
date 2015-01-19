@@ -131,6 +131,16 @@ namespace System
             return result.ToString();
         }
 
+        /// <summary>
+        /// <see cref="System.Boolean"/> 和 <see cref="System.Result"/> 的隐式转换。
+        /// </summary>
+        /// <param name="result">返回结果。</param>
+        /// <returns>如果结果非空并且状态为成功返回 true，否则返回 false。</returns>
+        public static implicit operator Boolean(Result result)
+        {
+            return result != null && result.IsSucceed;
+        }
+
         #endregion
     }
 }

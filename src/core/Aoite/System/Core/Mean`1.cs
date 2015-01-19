@@ -83,12 +83,16 @@ namespace System
         public T Value { get { return this._lazy.Value; } }
 
         /// <summary>
-        /// 重置延迟初始化的值。
+        /// 释放上一次初始化的值，并重置延迟初始化的值。
         /// </summary>
         public void Reset()
         {
             lock(this)
             {
+                if(this._lazy != null && this._lazy.IsValueCreated && this._lazy.Value is IDisposable)
+                {
+                    (this._lazy.Value as IDisposable).Dispose();
+                }
                 this._lazy = this._lazyCreater();
             }
         }

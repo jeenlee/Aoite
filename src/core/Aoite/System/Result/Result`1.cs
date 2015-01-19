@@ -116,11 +116,11 @@ namespace System
 
         internal override object GetValue()
         {
-            return this.Value;
+            return this._Value;
         }
         internal override void SetValue(object value)
         {
-            this.Value = (TValue)value;
+            this._Value = (TValue)value;
         }
         internal override Type GetValueType()
         {

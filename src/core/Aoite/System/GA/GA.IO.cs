@@ -8,21 +8,6 @@ using System.Threading.Tasks;
 
 namespace System
 {
-    /// <summary>  
-    /// 定义压缩的模式。  
-    /// </summary>  
-    public enum ZipMode
-    {
-        /// <summary>
-        /// 压缩时间长，压缩率高。
-        /// </summary>
-        BZIP2,
-        /// <summary>
-        /// 压缩效率高，压缩率低。
-        /// </summary>
-        GZIP
-    }
-
     partial class GA
     {
         /// <summary>
@@ -95,10 +80,10 @@ namespace System
             /// </summary>
             /// <param name="path">目录路径。</param>
             /// <param name="recursive">若要移除 <paramref name="path"/> 中的目录、子目录和文件，则为 true；否则为 false。</param>
-            public static void DeleteDirectory(string path, bool recursive = true)
+            public static IAsyncJob DeleteDirectory(string path, bool recursive = true)
             {
-                if(!Directory.Exists(path)) return;
-                Ajob.Once(j =>
+                if(!Directory.Exists(path)) return null;
+                var job = Ajob.Once(j =>
                 {
                     while(true)
                     {
@@ -112,7 +97,9 @@ namespace System
                             j.Delay(300);
                         }
                     }
-                }).Wait(3000);
+                });
+                job.Wait(300);
+                return job;
             }
 
             /// <summary>

@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -55,6 +57,29 @@
     <Compile Include="Aoite\Data\Samples\SelectCommandBuilderTests.cs" />
     <Compile Include="Aoite\Data\Samples\SimpleDataTests.cs" />
     <Compile Include="Aoite\Data\Samples\WhereCommandBuilderTests.cs" />
+    <Compile Include="Aoite\LevelDB\DatabaseTest.cs" />
+    <Compile Include="Aoite\LevelDB\DBTests.cs" />
+    <Compile Include="Aoite\LevelDB\NativeTests.cs" />
+    <Compile Include="Aoite\LevelDB\ReactiveTests.cs" />
+    <Compile Include="Aoite\Logger\Text\DefaultLogDescriptorTests.cs" />
+    <Compile Include="Aoite\Logger\Text\LogPathFactoriesTests.cs" />
+    <Compile Include="Aoite\Logger\Text\StreamTextWriterFactoryTests.cs" />
+    <Compile Include="Aoite\Redis\RedisHyperLogLogTests.cs" />
+    <Compile Include="Aoite\Redis\RedisHashTests.cs" />
+    <Compile Include="Aoite\Redis\RedisKeyTests.cs" />
+    <Compile Include="Aoite\Redis\RedisListTests.cs" />
+    <Compile Include="Aoite\Redis\RedisStreamTests.cs" />
+    <Compile Include="Aoite\Redis\RedisSetTests.cs" />
+    <Compile Include="Aoite\Redis\RedisSortedSetTests.cs" />
+    <Compile Include="Aoite\Redis\RedisStringTests.cs" />
+    <Compile Include="Aoite\Redis\RedisTranTests.cs" />
+    <Compile Include="Aoite\Redis\TestBase.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\AllFormattersTests.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\BasisFormattersTests.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\FormattersBase.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\NumberFormattersTests.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\SerializerTests.cs" />
+    <Compile Include="Aoite\Serialization\BinarySuite\StringFormattersTests.cs" />
     <Compile Include="System\Attributes\AliasAttributeTests.cs" />
     <Compile Include="Aoite\Data\Core\AoiteTableTests.cs" />
     <Compile Include="Aoite\Reflection\Common\BaseTest.cs" />
@@ -129,6 +154,7 @@
     <Compile Include="System\Core\GridDataTests.cs" />
     <Compile Include="System\Core\IsolatedTests.cs" />
     <Compile Include="System\Core\LockSlimTests.cs" />
+    <Compile Include="System\Core\LogTests.cs" />
     <Compile Include="System\Core\MeanTests.cs" />
     <Compile Include="System\Disposable\ObjectDisposableBaseTests.cs" />
     <Compile Include="System\Extensions\CollectionsExtensionsTests.cs" />
@@ -136,12 +162,18 @@
     <Compile Include="System\Extensions\MapperExtensionsTests.cs" />
     <Compile Include="System\Extensions\StringExtensionsTests.cs" />
     <Compile Include="System\Extensions\TypeExtensionsTests.cs" />
+    <Compile Include="System\Ioc\IocContainerTests.cs" />
+    <Compile Include="System\Ioc\Services.cs" />
     <Compile Include="System\Random\FastRandomTests.cs" />
     <Compile Include="System\Attributes\IgnoreAttributeTests.cs" />
     <Compile Include="System\Result\Result1Tests.cs" />
     <Compile Include="System\Result\ResultExceptionTests.cs" />
     <Compile Include="System\Extensions\ResultExtensionsTests.cs" />
     <Compile Include="System\Result\ResultTests.cs" />
+    <Compile Include="TestModels\AdvancedStruct.cs" />
+    <Compile Include="TestModels\ComplexObject.cs" />
+    <Compile Include="TestModels\GenericObject.cs" />
+    <Compile Include="TestModels\RootContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Aoite\Aoite.csproj">

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace System
+namespace Aoite.Data
 {
     /// <summary>
     /// 表示一个 SQL 脚本管理工具。
@@ -12,7 +12,7 @@ namespace System
     public class SqlScriptsManager : Dictionary<string, string>
     {
         /// <summary>
-        /// 初始化 <see cref="System.SqlScriptsManager"/> 类的新实例。
+        /// 初始化 <see cref="Aoite.Data.SqlScriptsManager"/> 类的新实例。
         /// </summary>
         public SqlScriptsManager() : base(StringComparer.OrdinalIgnoreCase) { }
 

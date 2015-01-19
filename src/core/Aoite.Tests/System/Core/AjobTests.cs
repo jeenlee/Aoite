@@ -62,7 +62,7 @@ namespace System
         public void CancelTest()
         {
             Exception ex = null;
-            Ajob.GlobalError += (ss, ee) =>
+            GA.GlobalError += (ss, ee) =>
             {
                 ex = ee.Exception;
             };
@@ -70,14 +70,17 @@ namespace System
             var token = Ajob.Loop(j =>
             {
                 j.Delay(5000);
-                testCount++;
+                if(!j.IsCanceled) testCount++;
             }, 300);
             Threading.Thread.Sleep(1000);
             token.Cancel();
             Assert.Equal(0, testCount);
             Threading.Thread.Sleep(5000);
-            Assert.Equal(1, testCount);
+
+            Assert.True(token.IsCanceled);
+            Assert.Equal(0, testCount);
             Assert.Null(ex);
         }
+
     }
 }

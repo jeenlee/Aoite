@@ -96,7 +96,7 @@ namespace System
         /// <summary>
         /// 获取一个对象池的对象，并执行 <paramref name="callback"/>，并将对象放回池中。
         /// </summary>
-        /// <param name="callback">回调函数。</param>
+        /// <param name="callback">回调方法。</param>
         public virtual void AcquireRelease(Action<T> callback)
         {
             this.ThrowWhenDisposed();
@@ -115,8 +115,8 @@ namespace System
         /// 获取一个对象池的对象，并执行 <paramref name="callback"/>，并将对象放回池中。
         /// </summary>
         /// <typeparam name="TResult">返回的数据类型。</typeparam>
-        /// <param name="callback">回调函数。</param>
-        /// <returns>返回回调函数的返回值。</returns>
+        /// <param name="callback">回调方法。</param>
+        /// <returns>返回回调方法的返回值。</returns>
         public virtual TResult AcquireRelease<TResult>(Func<T, TResult> callback)
         {
             this.ThrowWhenDisposed();

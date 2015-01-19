@@ -8,7 +8,6 @@ namespace System.Extensions
 {
     public class CommonExtensionsTests
     {
-
         public class TestDemo1
         {
             public string MyProperty1 { get; set; }

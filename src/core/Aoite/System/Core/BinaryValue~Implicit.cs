@@ -13,7 +13,7 @@ namespace System
         /// <returns>返回一个 <see cref="System.Boolean"/> 的新实例。</returns>
         public static implicit operator Boolean(BinaryValue value)
         {
-            if(value == null) return default(Boolean);
+            if(!HasValue(value)) return default(Boolean);
             return BitConverter.ToBoolean(value._ByteArray, 0);
         }
 
@@ -34,7 +34,7 @@ namespace System
         /// <returns>返回一个 <see cref="System.Char"/> 的新实例。</returns>
         public static implicit operator Char(BinaryValue value)
         {
-            if(value == null) return default(Char);
+            if(!HasValue(value)) return default(Char);
             return BitConverter.ToChar(value._ByteArray, 0);
         }
 
@@ -55,7 +55,7 @@ namespace System
         /// <returns>返回一个 <see cref="System.Double"/> 的新实例。</returns>
         public static implicit operator Double(BinaryValue value)
         {
-            if(value == null) return default(Double);
+            if(!HasValue(value)) return default(Double);
             return BitConverter.ToDouble(value._ByteArray, 0);
         }
 
@@ -76,7 +76,7 @@ namespace System
         /// <returns>返回一个 <see cref="System.Int16"/> 的新实例。</returns>
         public static implicit operator Int16(BinaryValue value)
         {
-            if(value == null) return default(Int16);
+            if(!HasValue(value)) return default(Int16);
             return BitConverter.ToInt16(value._ByteArray, 0);
         }
 
@@ -97,7 +97,7 @@ namespace System
         /// <returns>返回一个 <see cref="System.Int32"/> 的新实例。</returns>
         public static implicit operator Int32(BinaryValue value)
         {
-            if(value == null) return default(Int32);
+            if(!HasValue(value)) return default(Int32);
             return BitConverter.ToInt32(value._ByteArray, 0);
         }
 
@@ -118,7 +118,7 @@ namespace System
         /// <returns>返回一个 <see cref="System.Int64"/> 的新实例。</returns>
         public static implicit operator Int64(BinaryValue value)
         {
-            if(value == null) return default(Int64);
+            if(!HasValue(value)) return default(Int64);
             return BitConverter.ToInt64(value._ByteArray, 0);
         }
 
@@ -139,7 +139,7 @@ namespace System
         /// <returns>返回一个 <see cref="System.Single"/> 的新实例。</returns>
         public static implicit operator Single(BinaryValue value)
         {
-            if(value == null) return default(Single);
+            if(!HasValue(value)) return default(Single);
             return BitConverter.ToSingle(value._ByteArray, 0);
         }
 
@@ -160,7 +160,7 @@ namespace System
         /// <returns>返回一个 <see cref="System.UInt16"/> 的新实例。</returns>
         public static implicit operator UInt16(BinaryValue value)
         {
-            if(value == null) return default(UInt16);
+            if(!HasValue(value)) return default(UInt16);
             return BitConverter.ToUInt16(value._ByteArray, 0);
         }
 
@@ -181,7 +181,7 @@ namespace System
         /// <returns>返回一个 <see cref="System.UInt32"/> 的新实例。</returns>
         public static implicit operator UInt32(BinaryValue value)
         {
-            if(value == null) return default(UInt32);
+            if(!HasValue(value)) return default(UInt32);
             return BitConverter.ToUInt32(value._ByteArray, 0);
         }
 
@@ -202,7 +202,7 @@ namespace System
         /// <returns>返回一个 <see cref="System.UInt64"/> 的新实例。</returns>
         public static implicit operator UInt64(BinaryValue value)
         {
-            if(value == null) return default(UInt64);
+            if(!HasValue(value)) return default(UInt64);
             return BitConverter.ToUInt64(value._ByteArray, 0);
         }
 

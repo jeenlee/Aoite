@@ -16,12 +16,6 @@ namespace System
         public static class Net
         {
             /// <summary>
-            /// 获取内网地址。
-            /// </summary>
-            public readonly static string LocalAddress = (from ip in Dns.GetHostEntry(Dns.GetHostName()).AddressList
-                                                          where ip.AddressFamily == AddressFamily.InterNetwork
-                                                          select ip.ToString()).FirstOrDefault();
-            /// <summary>
             ///  获取本机已被使用的网络端点。
             /// </summary>
             /// <returns>返回本机所有网络端点。</returns>

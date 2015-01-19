@@ -8,74 +8,52 @@ namespace System
     /// </summary>
     public static class Ajob
     {
-        class AsyncJob : ObjectDisposableBase, IAsyncJob
+        class AsyncJob : IAsyncJob
         {
             private Task _Task;
             private object _State;
             private TimeSpan _Interval;
             private AsyncJobHandler _Job;
+            private CancellationTokenSource _calcelSource;
 
-            public TaskStatus Status
-            {
-                get
-                {
-                    this.ThrowWhenDisposed();
-                    return _Task == null ? TaskStatus.Created : _Task.Status;
-                }
-            }
+            public bool IsCanceled { get { return this._Task.IsCanceled || this._calcelSource.IsCancellationRequested; } }
+            public bool IsFaulted { get { return this._Task.IsFaulted; } }
+            public bool IsSuccessed { get { return this._Task.IsCompleted && !this.IsCanceled; } }
+            public bool IsRunning { get { return this._Task.Status == TaskStatus.Running && !this.IsCanceled; } }
 
-            public object State
-            {
-                get
-                {
-                    this.ThrowWhenDisposed();
-                    return _State;
-                }
-                set
-                {
-                    this.ThrowWhenDisposed();
-                    _State = value;
-                }
-            }
+            public object State { get { return _State; } }
 
-            public Task Task
-            {
-                get
-                {
-                    this.ThrowWhenDisposed();
-                    return this._Task;
-                }
-            }
+            public Task Task { get { return this._Task; } }
 
             public AsyncJob(AsyncJobHandler job, TimeSpan timeSpan, object state)
             {
-                if(job == null) throw new ArgumentNullException("job");
-                _Interval = timeSpan;
-                _Job = job;
+                this._Interval = timeSpan;
+                this._Job = job;
                 this._State = state;
+                this._calcelSource = new CancellationTokenSource();
             }
 
             public AsyncJob Start(Action<object> action, TaskCreationOptions options)
             {
-                _Task = Task.Factory.StartNew(action, this, options);
+                this._Task = Task.Factory.StartNew(action, this, this._calcelSource.Token, options, TaskScheduler.Default);
                 return this;
             }
 
             public bool Wait(int millisecondsTimeout = Timeout.Infinite)
             {
-                this.ThrowWhenDisposed();
                 return _Task.Wait(millisecondsTimeout);
             }
 
             public void Cancel()
             {
-                this.ThrowWhenDisposed();
-                this.Dispose();
+                this._calcelSource.Cancel();
             }
 
             public bool WaitForNextTask()
             {
-                return Thread.CurrentThread.Join(_Interval);
+                return this._calcelSource.IsCancellationRequested 
+                    || Thread.CurrentThread.Join(this._Interval) 
+                    || this._calcelSource.IsCancellationRequested;
             }
 
             public void RunTask()
@@ -83,38 +61,28 @@ namespace System
                 _Job(this);
             }
 
-            protected override void DisposeManaged()
-            {
-                this._Task = null;
-                this._Job = null;
-                this._State = null;
-                base.DisposeManaged();
-            }
-
             public void Delay(int millisecondsDelay)
             {
-                this.ThrowWhenDisposed();
                 Thread.CurrentThread.Join(millisecondsDelay);
             }
-
-            public void OnError(Exception exception)
+            public void Delay(TimeSpan timeSpanDelay)
             {
-                var ev = GlobalError;
-                if(ev != null) ev(this, new ExceptionEventArgs(exception));
+                Thread.CurrentThread.Join(timeSpanDelay);
             }
+
         }
 
         private static void OnceInvoke(object state)
         {
             AsyncJob tme = state as AsyncJob;
-            if(tme.IsDisposed || tme.WaitForNextTask() || tme.IsDisposed) return;
+            if(tme.WaitForNextTask()) return;
             try
             {
                 tme.RunTask();
             }
             catch(Exception ex)
             {
-                tme.OnError(ex);
+                GA.OnGlobalError(tme, ex);
                 throw;
             }
         }
@@ -123,23 +91,18 @@ namespace System
             AsyncJob tme = state as AsyncJob;
             while(true)
             {
-                if(tme.IsDisposed || tme.WaitForNextTask()) return;
+                if(tme.WaitForNextTask()) return;
                 try
                 {
                     tme.RunTask();
                 }
                 catch(Exception ex)
                 {
-                    tme.OnError(ex);
+                    GA.OnGlobalError(tme, ex);
                     throw;
                 }
             }
         }
-
-        /// <summary>
-        /// 当异步任务发生异常时发生。
-        /// </summary>
-        public static event ExceptionEventHandler GlobalError;
 
         /// <summary>
         /// 指定 <paramref name="milliseconds"/> 毫秒后执行一次 <paramref name="job"/>。

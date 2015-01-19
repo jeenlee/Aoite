@@ -46,7 +46,7 @@ namespace System
         /// <returns>返回一个字节组。</returns>
         public static byte[] ToBytes(this string value, Encoding encoding = null)
         {
-            return (encoding ?? Encoding.UTF8).GetBytes(value);
+            return (encoding ?? GA.UTF8).GetBytes(value);
         }
 
         /// <summary>

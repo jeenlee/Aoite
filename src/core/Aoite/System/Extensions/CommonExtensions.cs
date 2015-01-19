@@ -27,7 +27,7 @@ namespace System
         /// </summary>
         OnlyChangeValues,
     }
-    //TODO：未完成。需要完成 Cache 和 EntityMapper
+    //TODO：未完成。需要完成 Cache
     /// <summary>
     /// 提供公共的实用工具方法。
     /// </summary>
@@ -172,6 +172,16 @@ namespace System
         public static void TryDispose(this IDisposable obj)
         {
             if(obj != null) obj.Dispose();
+        }
+
+        /// <summary>
+        /// 判定指定的二进制值是否包含有效的值。
+        /// </summary>
+        /// <param name="value">一个二进制值。</param>
+        /// <returns>如果包含返回 true，否则返回 false。</returns>
+        public static bool HasValue(this BinaryValue value)
+        {
+            return BinaryValue.HasValue(value);
         }
         /*
         /// <summary>

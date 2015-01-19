@@ -38,7 +38,7 @@ namespace System
         /// <returns>返回一个 <see cref="<#=type.FullName #>"/> 的新实例。</returns>
         public static implicit operator <#=type.Name #>(BinaryValue value)
         {
-            if(value == null) return default(<#=type.Name #>);
+            if(!HasValue(value)) return default(<#=type.Name #>);
             return BitConverter.To<#=type.Name #>(value._ByteArray, 0);
         }
 

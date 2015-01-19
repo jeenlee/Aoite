@@ -139,8 +139,9 @@ namespace System
 
         /// <summary>
         /// 创建并返回一个 <see cref="Aoite.Data.DbContext"/>。返回当前线程上下文包含的 <see cref="Aoite.Data.DbContext"/> 或创建一个新的  <see cref="Aoite.Data.DbContext"/>。
-        /// <para>当释放一个 <see cref="Aoite.Data.DbContext"/> 后，将会重新创建。</para>
+        /// <para>当释放一个 <see cref="Aoite.Data.DbContext"/> 后，下一次调用获取将会重新创建上下文。</para>
         /// </summary>
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         public static DbContext Context
         {
             get
@@ -152,8 +153,9 @@ namespace System
 
         /// <summary>
         /// 创建并返回一个事务性 <see cref="Aoite.Data.DbContext"/>。返回当前线程上下文包含的 <see cref="Aoite.Data.DbContext"/> 或创建一个新的  <see cref="Aoite.Data.DbContext"/>。
-        /// <para>当释放一个 <see cref="Aoite.Data.DbContext"/> 后，将会重新创建。</para>
+        /// <para>当释放一个 <see cref="Aoite.Data.DbContext"/> 后，下一次调用获取将会重新创建上下文。</para>
         /// </summary>
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         public static DbContext ContextTransaction
         {
             get
